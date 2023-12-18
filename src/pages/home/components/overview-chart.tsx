@@ -41,7 +41,6 @@ export const OverViewChart: React.FC = () => {
 
   return (
     <div className="space-y-2 align-middle justify-center flex flex-col">
-      <span>Carteira</span>
       <Chart
         width={"100%"}
         height={"300px"}

@@ -11,24 +11,6 @@ import {
 
 const data = [
   {
-    name: "Jan",
-    entradas: 4000,
-    saidas: 2400,
-    amt: 2400,
-  },
-  {
-    name: "Feb",
-    entradas: 3000,
-    saidas: 1398,
-    amt: 2210,
-  },
-  {
-    name: "Mar",
-    entradas: 2000,
-    saidas: 9800,
-    amt: 2290,
-  },
-  {
     name: "Abr",
     entradas: 2780,
     saidas: 3908,
@@ -63,24 +45,6 @@ const data = [
     entradas: 3000,
     saidas: 1398,
     amt: 2210,
-  },
-  {
-    name: "Out",
-    entradas: 2000,
-    saidas: 9800,
-    amt: 2290,
-  },
-  {
-    name: "Nov",
-    entradas: 2780,
-    saidas: 3908,
-    amt: 2000,
-  },
-  {
-    name: "Dez",
-    entradas: 1890,
-    saidas: 4800,
-    amt: 2181,
   },
 ];
 

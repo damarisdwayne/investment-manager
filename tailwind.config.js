@@ -16,6 +16,15 @@ module.exports = {
       },
     },
     extend: {
+      backgroundColor: {
+        "international-stocks": "#3E6336",
+        "national-stocks": "#8C955E",
+        "fixed-income": "#A8D080",
+        "real-estate-funds": "#C1E1C5",
+        reits: "#81C1D7",
+        cryptocurrencies: "#BEE3DB",
+        gold: "#efb810",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
