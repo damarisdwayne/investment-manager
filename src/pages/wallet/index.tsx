@@ -4,10 +4,9 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { WalletTable } from "./wallet-table";
 import { OverViewChart } from "../home/components/overview-chart";
-import { Button } from "@/components/ui/button";
 import { Toggle } from "@/components/ui/toggle";
-import { PlusIcon } from "@radix-ui/react-icons";
 import { assetList } from "@/constants";
+import { IncludeActiveDialog } from "@/components/include-active-dialog";
 
 const Wallet: React.FC = () => {
   const [activeItems, setActiveItems] = useState<string[]>([]);
@@ -34,9 +33,7 @@ const Wallet: React.FC = () => {
         <Input className="w-[200px]" type="text" placeholder="Pesquisar" />
       </div>
       <div className="flex flex-col space-y-4">
-        <Button variant="outline" className="gap-2 w-44 self-end">
-          <PlusIcon /> Adicionar ativo
-        </Button>
+        <IncludeActiveDialog />
         <div className=" flex gap-4">
           {assetList.map((item) => (
             <Toggle
