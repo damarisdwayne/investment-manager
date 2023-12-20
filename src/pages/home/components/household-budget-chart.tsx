@@ -1,3 +1,4 @@
+import { Card, CardContent } from "@/components/ui/card";
 import {
   BarChart,
   Bar,
@@ -50,36 +51,44 @@ const data = [
 
 export const HouseHoldBudgetChart = () => {
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <BarChart
-        width={500}
-        height={300}
-        data={data}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
-      >
-        <CartesianGrid stroke="transparent" strokeDasharray="0" />
-        <XAxis dataKey="name" />
-        <YAxis
-          stroke="#888888"
-          fontSize={12}
-          tickLine={false}
-          axisLine={false}
-          tickFormatter={(value) => `R$${value}`}
-        />
-        <Tooltip contentStyle={{ color: "hsl(var(--secondary))" }} />
-        <Legend color="hsl(var(--destructive))" />
-        <Bar
-          color="hsl(var(--primary))"
-          dataKey="entradas"
-          fill="hsl(var(--primary))"
-        />
-        <Bar label="dawdu" dataKey="saidas" fill="hsl(var(--destructive))" />
-      </BarChart>
-    </ResponsiveContainer>
+    <Card className="w-full h-full">
+      <CardContent className="p-4 w-full h-full">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            width={500}
+            height={300}
+            data={data}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid stroke="transparent" strokeDasharray="0" />
+            <XAxis dataKey="name" />
+            <YAxis
+              stroke="#888888"
+              fontSize={12}
+              tickLine={false}
+              axisLine={false}
+              tickFormatter={(value) => `R$${value}`}
+            />
+            <Tooltip contentStyle={{ color: "hsl(var(--secondary))" }} />
+            <Legend color="hsl(var(--destructive))" />
+            <Bar
+              color="hsl(var(--primary))"
+              dataKey="entradas"
+              fill="hsl(var(--primary))"
+            />
+            <Bar
+              label="dawdu"
+              dataKey="saidas"
+              fill="hsl(var(--destructive))"
+            />
+          </BarChart>
+        </ResponsiveContainer>
+      </CardContent>
+    </Card>
   );
 };

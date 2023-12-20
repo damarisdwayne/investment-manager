@@ -1,16 +1,4 @@
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Separator } from "@/components/ui/separator";
-import { InputLabelGroup, SelectCategory } from "./components";
-import { PlusIcon } from "@radix-ui/react-icons";
+import { SelectCategory } from "./components";
 import { useState } from "react";
 import {
   AccountForm,
@@ -21,8 +9,10 @@ import {
   GenericForm,
   OtherForm,
 } from "./forms";
+import { InputLabelGroup } from "@/components";
+import { Button } from "@/components/ui/button";
 
-export const IncludeActiveDialog = () => {
+const NewAsset = () => {
   const [category, setCategory] = useState("");
 
   const renderForm = () => {
@@ -48,15 +38,17 @@ export const IncludeActiveDialog = () => {
   };
 
   return (
-    <div className="mt-8 flex-1 m-auto px-8">
-      <DialogTitle className="mb-3">Adicionar ativo</DialogTitle>
-      <Separator />
+    <div className="flex-1 p-8">
+      <h1 className="mb-3">Novo ativo</h1>
       <div className="grid gap-4 py-4">
         <InputLabelGroup label="Categoria">
           <SelectCategory setCategory={setCategory} />
         </InputLabelGroup>
         {renderForm()}
       </div>
+      <Button className="ml-auto">Salvar</Button>
     </div>
   );
 };
+
+export default NewAsset;

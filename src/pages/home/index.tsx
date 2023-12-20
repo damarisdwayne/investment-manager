@@ -1,5 +1,5 @@
 import React from "react";
-import { OverViewChart } from "./components/overview-chart";
+import { OverViewChart } from "../../components/overview-chart";
 import { HouseHoldBudgetChart } from "./components/household-budget-chart";
 import { OverviewTable } from "./components/overview-table";
 
@@ -10,16 +10,15 @@ const Home: React.FC = () => {
         Resumo dos Investimentos e Despesas
       </h1>
       <div className="w-full flex flex-row gap-4 flex-1 m-auto mt-8">
-        <div className="flex-1 border-neutral-800 rounded border-2 p-2">
-          <p>Carteira</p>
-          <OverViewChart />
+        <div className="flex-1 rounded p-2">
+          <OverViewChart label="Carteira" />
         </div>
-        <div className="flex-[2] border-neutral-800 rounded border-2 py-2">
+        <div className="flex-[2] rounded py-2">
           <HouseHoldBudgetChart />
         </div>
       </div>
       <div className="w-full flex flex-row gap-4 flex-1 m-auto mt-4">
-        <div className="flex-1 border-neutral-800 rounded border-2 p-2">
+        <div className="flex-1 rounded p-2">
           <OverviewTable />
         </div>
       </div>

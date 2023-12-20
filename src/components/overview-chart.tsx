@@ -1,8 +1,13 @@
 import { Ball } from "@/components/ball";
 import React, { Fragment } from "react";
 import Chart, { ChartWrapperOptions } from "react-google-charts";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
-export const OverViewChart: React.FC = () => {
+interface OverViewChartProps {
+  label: string;
+}
+
+export const OverViewChart = ({ label }: OverViewChartProps) => {
   const assets = [
     { label: "Ações internacionais", bgColor: "#3E6336" },
     { label: "Ações nacionais", bgColor: "#8C955E" },
@@ -40,22 +45,26 @@ export const OverViewChart: React.FC = () => {
   };
 
   return (
-    <div className="space-y-2 align-middle justify-center flex flex-col">
-      <Chart
-        width={"100%"}
-        height={"300px"}
-        chartType="PieChart"
-        data={data}
-        options={options}
-        style={{ borderBlockColor: "none" }}
-      />
-      <div className="flex flex-col gap-1">
-        {assets.map(({ label, bgColor }, index) => (
-          <Fragment key={index}>
-            <Ball {...{ label, bgColor }} />
-          </Fragment>
-        ))}
-      </div>
-    </div>
+    <Card className="flex-1 w-full h-full space-y-2 align-middle justify-center flex flex-col">
+      <CardHeader>
+        <CardTitle>{label}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Chart
+          width={"100%"}
+          chartType="PieChart"
+          data={data}
+          options={options}
+          style={{ borderBlockColor: "none" }}
+        />
+        <div className="flex flex-col gap-1">
+          {assets.map(({ label, bgColor }, index) => (
+            <Fragment key={index}>
+              <Ball {...{ label, bgColor }} />
+            </Fragment>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
   );
 };

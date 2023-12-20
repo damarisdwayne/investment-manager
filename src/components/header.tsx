@@ -33,11 +33,15 @@ export const Header = () => {
               >
                 Carteira
               </NavigationMenuLink>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                Orçamento Doméstico
+              <NavigationMenuLink
+                onClick={() => navigation(DefaultRoutes.NEW_ASSET)}
+                active={location === DefaultRoutes.NEW_ASSET}
+                className={navigationMenuTriggerStyle()}
+              >
+                Adicionar Ativo
               </NavigationMenuLink>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                Diagrama
+                Orçamento Doméstico
               </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>
