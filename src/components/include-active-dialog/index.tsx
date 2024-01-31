@@ -1,16 +1,6 @@
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { DialogTitle } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
-import { InputLabelGroup, SelectCategory } from "./components";
-import { PlusIcon } from "@radix-ui/react-icons";
+import { SelectCategory } from "./components";
 import { useState } from "react";
 import {
   AccountForm,
@@ -21,6 +11,7 @@ import {
   GenericForm,
   OtherForm,
 } from "./forms";
+import { InputLabelGroup } from "../input-label-group";
 
 export const IncludeActiveDialog = () => {
   const [category, setCategory] = useState("");

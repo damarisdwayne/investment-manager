@@ -1,5 +1,6 @@
 import { Input } from "@/components/ui/input";
-import { DatePicker, InputLabelGroup, SelectOperation } from "../components";
+import { DatePicker, SelectOperation } from "../components";
+import { InputLabelGroup } from "@/components/input-label-group";
 
 interface OtherFormProps {
   categotySelected: string;

@@ -8,7 +8,7 @@ interface FundFormProps {
 
 export const FundForm = ({ categotySelected }: FundFormProps) => {
   return (
-    <div>
+    <div className="gap-4">
       <InputLabelGroup label="Fundo">
         <Input
           className="mb-4"
@@ -19,7 +19,7 @@ export const FundForm = ({ categotySelected }: FundFormProps) => {
       <InputLabelGroup label="Tipo de lançamento">
         <SelectType categotySelected={categotySelected} />
       </InputLabelGroup>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4 mt-4">
         <InputLabelGroup label="Operação">
           <SelectOperation categotySelected={categotySelected} />
         </InputLabelGroup>
