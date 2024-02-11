@@ -10,8 +10,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { QuestionData } from "@/services/question";
 
-export const DiagramTable: React.FC = () => {
+interface DiagramTableProps {
+  questions: QuestionData[] | null;
+}
+
+export const DiagramTable: React.FC<DiagramTableProps> = ({ questions }) => {
   return (
     <Card>
       <CardHeader>
@@ -27,20 +32,21 @@ export const DiagramTable: React.FC = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              <TableCell className="text-left">
-                Dívida líquida - lucro líquido
-              </TableCell>
-              <TableCell className="text-left">
-                A dívida líquida da empresa é menor que lucro líquido dos
-                últimos 12 meses?
-              </TableCell>
-              <TableCell className="text-center">
-                <Button className="gap-1">
-                  <Pencil1Icon /> Editar
-                </Button>
-              </TableCell>
-            </TableRow>
+            {questions?.map((question) => (
+              <TableRow key={question?.id}>
+                <TableCell className="text-left">
+                  {question?.criterion}
+                </TableCell>
+                <TableCell className="text-left">
+                  {question?.question}
+                </TableCell>
+                <TableCell className="text-center">
+                  <Button className="gap-1">
+                    <Pencil1Icon /> Editar
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </CardContent>
