@@ -7,6 +7,7 @@ import { useAuthData } from "@/context/use-auth-data";
 import { useNavigate } from "react-router-dom";
 import { InputLabelGroup } from "../input-label-group";
 import { Input } from "../ui/input";
+import { DefaultRoutes } from "@/routes/routes";
 
 export const LoginForm = () => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ export const LoginForm = () => {
     try {
       await login(email, password);
       reset();
-      navigate("/");
+      navigate(DefaultRoutes.APP_ROOT);
     } catch (error) {
       console.log(error);
     }
@@ -66,7 +67,10 @@ export const LoginForm = () => {
         name="password"
         control={control}
         render={({ field }) => (
-          <InputLabelGroup label="Senha" errorMessage={errors.email?.message}>
+          <InputLabelGroup
+            label="Senha"
+            errorMessage={errors.password?.message}
+          >
             <Input id="password" type="password" {...field} />
           </InputLabelGroup>
         )}

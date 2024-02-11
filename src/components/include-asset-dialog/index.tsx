@@ -13,7 +13,7 @@ import {
 } from "./forms";
 import { InputLabelGroup } from "../input-label-group";
 
-export const IncludeActiveDialog = () => {
+export const IncludeAssetDialog = () => {
   const [category, setCategory] = useState("");
 
   const renderForm = () => {

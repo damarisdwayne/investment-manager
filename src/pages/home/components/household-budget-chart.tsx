@@ -1,93 +1,115 @@
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
-
-const data = [
-  {
-    name: "Abr",
-    entradas: 2780,
-    saidas: 3908,
-    amt: 2000,
-  },
-  {
-    name: "Mai",
-    entradas: 1890,
-    saidas: 4800,
-    amt: 2181,
-  },
-  {
-    name: "Jun",
-    entradas: 2390,
-    saidas: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Jul",
-    entradas: 3490,
-    saidas: 4300,
-    amt: 2100,
-  },
-  {
-    name: "Ago",
-    entradas: 4000,
-    saidas: 2400,
-    amt: 2400,
-  },
-  {
-    name: "Set",
-    entradas: 3000,
-    saidas: 1398,
-    amt: 2210,
-  },
-];
+import { BarChart } from "@mui/x-charts/BarChart";
 
 export const HouseHoldBudgetChart = () => {
+  const dataset = [
+    {
+      income: 59,
+      outflow: 57,
+
+      month: "Jan",
+    },
+    {
+      income: 50,
+      outflow: 52,
+      month: "Fev",
+    },
+    {
+      income: 47,
+      outflow: 53,
+      month: "Mar",
+    },
+    {
+      income: 54,
+      outflow: 56,
+      month: "Apr",
+    },
+    {
+      income: 57,
+      outflow: 69,
+      month: "May",
+    },
+    {
+      income: 60,
+      outflow: 63,
+      month: "June",
+    },
+    {
+      income: 59,
+      outflow: 60,
+      month: "July",
+    },
+    {
+      income: 65,
+      outflow: 60,
+      month: "Aug",
+    },
+    {
+      income: 51,
+      outflow: 51,
+      month: "Sept",
+    },
+    {
+      income: 60,
+      outflow: 65,
+      month: "Oct",
+    },
+    {
+      income: 67,
+      outflow: 64,
+      month: "Nov",
+    },
+    {
+      income: 61,
+      outflow: 70,
+      month: "Dec",
+    },
+  ];
+
+  const valueFormatter = (value: number) => `R$${value}`;
   return (
     <Card className="w-full h-full">
       <CardContent className="p-4 w-full h-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            width={500}
-            height={300}
-            data={data}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid stroke="transparent" strokeDasharray="0" />
-            <XAxis dataKey="name" />
-            <YAxis
-              stroke="#888888"
-              fontSize={12}
-              tickLine={false}
-              axisLine={false}
-              tickFormatter={(value) => `R$${value}`}
-            />
-            <Tooltip contentStyle={{ color: "hsl(var(--secondary))" }} />
-            <Legend color="hsl(var(--destructive))" />
-            <Bar
-              color="hsl(var(--primary))"
-              dataKey="entradas"
-              fill="hsl(var(--primary))"
-            />
-            <Bar
-              label="dawdu"
-              dataKey="saidas"
-              fill="hsl(var(--destructive))"
-            />
-          </BarChart>
-        </ResponsiveContainer>
+        <BarChart
+          slotProps={{
+            legend: {
+              labelStyle: {
+                fill: "hsl(var(--foreground))",
+              },
+            },
+          }}
+          dataset={dataset}
+          xAxis={[
+            {
+              scaleType: "band",
+              dataKey: "month",
+              tickLabelStyle: { fill: "white" },
+            },
+          ]}
+          yAxis={[
+            {
+              scaleType: "linear",
+              dataKey: "income",
+              tickLabelStyle: { fill: "white" },
+              valueFormatter,
+            },
+          ]}
+          series={[
+            {
+              dataKey: "income",
+              stack: "A",
+              label: "Entrada",
+              valueFormatter,
+              color: "hsl(var(--primary))",
+            },
+            {
+              dataKey: "outflow",
+              label: "Saída",
+              valueFormatter,
+              color: "hsl(var(--destructive))",
+            },
+          ]}
+        />
       </CardContent>
     </Card>
   );

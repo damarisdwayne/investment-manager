@@ -1,6 +1,4 @@
-import { Ball } from "@/components/ball";
-import React, { Fragment } from "react";
-import Chart, { ChartWrapperOptions } from "react-google-charts";
+import { PieChart } from "@mui/x-charts/PieChart";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
 interface OverViewChartProps {
@@ -8,62 +6,74 @@ interface OverViewChartProps {
 }
 
 export const OverViewChart = ({ label }: OverViewChartProps) => {
-  const assets = [
-    { label: "Ações internacionais", bgColor: "#3E6336" },
-    { label: "Ações nacionais", bgColor: "#8C955E" },
-    { label: "Renda fixa", bgColor: "#A8D080" },
-    { label: "Fundos imobiliários", bgColor: "#C1E1C5" },
-    { label: "Reits", bgColor: "#81C1D7" },
-    { label: "Criptomoedas", bgColor: "#BEE3DB" },
-    { label: "Ouro", bgColor: "#efb810" },
-  ];
-  const data = [
-    ["Linguagens", "Quantidade"],
-    ["Ações internacionais", 100],
-    ["Ações nacionais", 80],
-    ["Renda fixa", 50],
-    ["Fundos imobiliários", 50],
-    ["Reits", 30],
-    ["Criptomoedas", 10],
-    ["Ouro", 5],
-  ];
-
-  const options: ChartWrapperOptions["options"] = {
-    backgroundColor: "transparent",
-    colors: [
-      "#3E6336",
-      "#8C955E",
-      "#A8D080",
-      "#C1E1C5",
-      "#81C1D7",
-      "#BEE3DB",
-      "#efb810",
-    ],
-    legend: {
-      position: "none",
-    },
-  };
-
   return (
     <Card className="flex-1 w-full h-full space-y-2 align-middle justify-center flex flex-col">
       <CardHeader>
         <CardTitle>{label}</CardTitle>
       </CardHeader>
-      <CardContent>
-        <Chart
-          width={"100%"}
-          chartType="PieChart"
-          data={data}
-          options={options}
-          style={{ borderBlockColor: "none" }}
+      <CardContent className="flex justify-start">
+        <PieChart
+          slotProps={{
+            legend: {
+              padding: 0,
+              position: { vertical: "middle", horizontal: "right" },
+              direction: "column",
+              labelStyle: {
+                fill: "hsl(var(--foreground))",
+              },
+            },
+          }}
+          series={[
+            {
+              data: [
+                {
+                  id: 0,
+                  value: 10,
+                  label: "Ações Nacionais",
+                  color: "#1e40af",
+                },
+                {
+                  id: 1,
+                  value: 15,
+                  label: "Ações Internacionais",
+                  color: "#0369a1",
+                },
+                {
+                  id: 2,
+                  value: 20,
+                  label: "Fundos imobiliários",
+                  color: "#0891b2",
+                },
+                {
+                  id: 3,
+                  value: 20,
+                  label: "Reits",
+                  color: "#0d9488",
+                },
+                {
+                  id: 4,
+                  value: 20,
+                  label: "Renda fixa",
+                  color: "#10b981",
+                },
+                {
+                  id: 5,
+                  value: 20,
+                  label: "Criptomoedas",
+                  color: "#4ade80",
+                },
+                {
+                  id: 6,
+                  value: 20,
+                  label: "Ouro",
+                  color: "#facc15",
+                },
+              ],
+            },
+          ]}
+          height={200}
+          margin={{ right: 200 }}
         />
-        <div className="flex flex-col gap-1">
-          {assets.map(({ label, bgColor }, index) => (
-            <Fragment key={index}>
-              <Ball {...{ label, bgColor }} />
-            </Fragment>
-          ))}
-        </div>
       </CardContent>
     </Card>
   );

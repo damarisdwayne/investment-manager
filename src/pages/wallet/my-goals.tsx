@@ -1,6 +1,5 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { OverViewChart } from "@/components";
 import { MyGoalsForm } from "./components/my-goals-form";
 
 export const MyGoals: React.FC = () => {
@@ -16,12 +15,7 @@ export const MyGoals: React.FC = () => {
           <Button>Salvar</Button>
         </div>
       </div>
-      <div className="flex flex-row gap-4">
-        <MyGoalsForm />
-        <div>
-          <OverViewChart label="Total: 20%" />
-        </div>
-      </div>
+      <MyGoalsForm />
     </div>
   );
 };

@@ -5,14 +5,15 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "./ui/separator";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { DefaultRoutes } from "@/routes/routes";
+import { ProfileModal } from "./profile-modal";
 
 export const Header = () => {
   const location = useLocation().pathname;
   const navigation = useNavigate();
+
   return (
     <div className="flex flex-col">
       <div className="flex p-4  justify-between mr-6">
@@ -47,12 +48,10 @@ export const Header = () => {
           </NavigationMenuList>
         </NavigationMenu>
 
-        <Avatar>
-          <AvatarImage />
-          <AvatarFallback>DW</AvatarFallback>
-        </Avatar>
+        <ProfileModal />
       </div>
       <Separator />
+      <Outlet />
     </div>
   );
 };

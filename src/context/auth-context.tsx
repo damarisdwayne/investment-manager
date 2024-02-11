@@ -9,6 +9,7 @@ import {
 import { auth } from "../services/firebase/config";
 import { IAuthRequest } from "@/types";
 import { useNavigate } from "react-router-dom";
+import { DefaultRoutes } from "@/routes/routes";
 
 export interface IUser {
   uid: string;
@@ -66,7 +67,7 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<IUser | null>(null);
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const clearSession = () => {
@@ -93,7 +94,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const convertedUser = await convertFirebaseUser(firebaseUser);
     setUser(convertedUser);
     setLoading(false);
-    return user;
+    return convertedUser;
   };
 
   const register = async ({ email, password }: IAuthRequest) => {
@@ -104,7 +105,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         email,
         password,
       );
-
       if (user) {
         await configureSession(user);
       }
@@ -118,7 +118,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password);
       await configureSession(user);
-      navigate("/");
+      navigate(DefaultRoutes.APP_ROOT);
     } catch (error) {
       console.log(error);
     } finally {
@@ -131,7 +131,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const { user } = await signInWithPopup(auth, provider);
       await configureSession(user);
-      navigate("/");
+      navigate(DefaultRoutes.APP_ROOT);
     } catch (error) {
       console.error(error);
     } finally {
@@ -144,6 +144,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setLoading(true);
       await auth.signOut();
       await configureSession(null);
+      navigate(DefaultRoutes.LOGIN);
     } finally {
       setLoading(false);
     }

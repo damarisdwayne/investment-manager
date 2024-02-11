@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { InputLabelGroup } from "@/components/input-label-group";
-import { SelectCategory } from "@/components/include-active-dialog/components";
+import { SelectCategory } from "@/components/include-asset-dialog/components";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { DiagramTable } from "./diagram-table";

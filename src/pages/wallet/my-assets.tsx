@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { WalletTable } from "./components/wallet-table";
-import { OverViewChart } from "../../components/overview-chart";
 import { Toggle } from "@/components/ui/toggle";
 import { assetList } from "@/constants";
 import { Button } from "@/components/ui/button";
@@ -44,7 +43,6 @@ export const MyAssets: React.FC = () => {
         </div>
         <div className="flex flex-row gap-4">
           <WalletTable />
-          <OverViewChart label="Carteira" />
         </div>
       </div>
     </div>

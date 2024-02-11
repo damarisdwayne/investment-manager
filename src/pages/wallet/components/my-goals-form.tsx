@@ -5,7 +5,7 @@ import { Slider } from "@/components/ui/slider";
 
 export const MyGoalsForm: React.FC = () => {
   return (
-    <Card className="w-full h-full flex-[3]">
+    <Card className="w-full h-full flex-1">
       <CardContent className="w-full h-full p-8 flex flex-col space-y-10">
         <InputLabelGroup label="Ações Nacionais">
           <Slider defaultValue={[33]} max={100} step={1} />

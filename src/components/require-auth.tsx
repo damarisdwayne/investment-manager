@@ -1,10 +1,9 @@
 import { useAuthData } from "@/context/use-auth-data";
-import { DefaultRoutes } from "@/routes/routes";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
 export const RequireAuth = () => {
   const { user, isLoading } = useAuthData();
-  const { pathname } = useLocation();
+  // const { pathname } = useLocation();
   const hasToken = !!localStorage.getItem("authToken");
 
   if (!hasToken && !user) {
@@ -13,10 +12,7 @@ export const RequireAuth = () => {
   if (hasToken && isLoading) {
     return <span>...loading</span>;
   }
-  if (!isLoading && hasToken && user && pathname === "/") {
-    return <Navigate to={DefaultRoutes.APP_ROOT} />;
-  }
-  if (!isLoading && hasToken && user && pathname !== "/") {
+  if (!isLoading && hasToken && user) {
     return <Outlet />;
   }
 

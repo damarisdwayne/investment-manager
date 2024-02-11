@@ -85,7 +85,7 @@ export const RegisterForm = ({ setMode }: RegisterFormProps) => {
             label="Confirmar Senha"
             errorMessage={errors.email?.message}
           >
-            <Input id="confirmPassword" type="confirmPassword" {...field} />
+            <Input id="confirmPassword" type="password" {...field} />
           </InputLabelGroup>
         )}
       />

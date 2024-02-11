@@ -7,7 +7,7 @@ import { MyGoals } from "./my-goals";
 
 export const WalletTabs: React.FC = () => {
   return (
-    <Tabs defaultValue="myAssets" className="w-full">
+    <Tabs defaultValue="myAssets" className="flex-1">
       <TabsList className="flex">
         <TabsTrigger value="myAssets" className="flex-1">
           Meus ativos

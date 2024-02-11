@@ -1,23 +1,48 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { OverViewChart } from "../../components/overview-chart";
 import { HouseHoldBudgetChart } from "./components/household-budget-chart";
 import { OverviewTable } from "./components/overview-table";
+import { addDoc, collection, getDocs } from "firebase/firestore";
+import { auth, db } from "@/services/firebase/config";
 
 const Home: React.FC = () => {
+  const currentUser = auth.currentUser?.uid;
+  const userAssetsRef = collection(db, "users", currentUser!, "assets");
+  const getAssets = async () => {
+    const data = await getDocs(userAssetsRef);
+    console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  };
+
+  const addAsset = async () => {
+    const currentUser = auth.currentUser?.uid;
+    const userAssetRef = collection(db, "users", currentUser!, "assets");
+    const result = await addDoc(userAssetRef, {
+      category: "bolsa4",
+      type: "bolsa4",
+      operation: "purchase",
+    });
+
+    console.log(result);
+  };
+
+  useEffect(() => {
+    // addAsset();
+    // getAssets();
+  }, []);
   return (
     <div className=" w-full flex flex-1 flex-col pb-8 px-8">
       <h1 className="self-center mt-8 text-xl">
         Resumo dos Investimentos e Despesas
       </h1>
-      <div className="w-full flex flex-row gap-4 flex-1 m-auto mt-8">
+      <div className="w-full flex flex-row gap-4 flex-1 m-auto mt-8 max-h-[400px]">
         <div className="flex-1 rounded p-2">
           <OverViewChart label="Carteira" />
         </div>
-        <div className="flex-[2] rounded py-2">
+        <div className="flex-1 rounded py-2">
           <HouseHoldBudgetChart />
         </div>
       </div>
-      <div className="w-full flex flex-row gap-4 flex-1 m-auto mt-4">
+      <div className="w-full flex flex-row gap-4 flex-1 m-auto mt-4 max-h-[400px]">
         <div className="flex-1 rounded p-2">
           <OverviewTable />
         </div>
