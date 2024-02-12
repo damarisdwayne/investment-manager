@@ -12,7 +12,7 @@ const Diagram: React.FC = () => {
   return (
     <div className="mt-8 flex-1 m-auto px-8 space-y-8">
       <div className="flex flex-col gap-2">
-        <h1>Novo aporte</h1>
+        <h1>Diagramas</h1>
         <p>
           Adicione perguntas que deverão ser feitas quando você adicionar um
           ativo em sua carteira.

@@ -35,10 +35,7 @@ export const NewContribuitionTable: React.FC = () => {
           <TableBody>
             <TableRow>
               <TableCell>
-                <Badge
-                  className={`bg-fixed-income text-black rounded-[10px]`}
-                  variant="secondary"
-                >
+                <Badge className={`rounded-[10px]`} variant="secondary">
                   Renda fixa
                 </Badge>
               </TableCell>

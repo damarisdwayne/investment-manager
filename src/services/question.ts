@@ -18,8 +18,7 @@ export interface QuestionData {
 export const addQuestion = async (questionData: QuestionData) => {
   const currentUser = auth.currentUser?.uid;
   const userQuestionsRef = collection(db, "users", currentUser!, "questions");
-  const result = await addDoc(userQuestionsRef, questionData);
-  console.log(result);
+  await addDoc(userQuestionsRef, questionData);
 };
 
 export const getQuestionByDiagramType = async (diagramType: string) => {
