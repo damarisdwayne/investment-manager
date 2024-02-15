@@ -15,9 +15,15 @@ import {
 
 interface SelectTypeProps {
   categotySelected: string;
+  onChange: (...event: any[]) => void;
+  value: string;
 }
 
-export const SelectOperation = ({ categotySelected }: SelectTypeProps) => {
+export const SelectOperation = ({
+  categotySelected,
+  onChange,
+  value,
+}: SelectTypeProps) => {
   const getAssetsByOperation = () => {
     switch (categotySelected) {
       case "stockExchange":
@@ -43,11 +49,11 @@ export const SelectOperation = ({ categotySelected }: SelectTypeProps) => {
   const assetList = getAssetsByOperation();
 
   return (
-    <Select>
+    <Select onValueChange={onChange} value={value}>
       <SelectTrigger>
         <SelectValue placeholder="" />
       </SelectTrigger>
-      <SelectContent id="operation">
+      <SelectContent inputMode="search" id="operation">
         <SelectGroup>
           {assetList.map((asset) => (
             <SelectItem key={asset.option} value={asset.option}>

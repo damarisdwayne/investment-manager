@@ -10,17 +10,18 @@ import {
 } from "@/components/ui/select";
 
 interface SelectTypeFeeProps {
-  setFee: React.Dispatch<React.SetStateAction<string>>;
+  onChange: (...event: any[]) => void;
+  value: string;
 }
 
-export const SelectTypeFee = ({ setFee }: SelectTypeFeeProps) => {
+export const SelectFee = ({ onChange, value }: SelectTypeFeeProps) => {
   const interestPaymentTypes = [
     { option: "pre", value: "Pré" },
     { option: "pos", value: "Pós" },
   ];
 
   return (
-    <Select onValueChange={(fee) => setFee(fee)}>
+    <Select onValueChange={onChange} value={value}>
       <SelectTrigger>
         <SelectValue placeholder="" />
       </SelectTrigger>

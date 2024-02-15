@@ -4,13 +4,12 @@ import {
   AccountForm,
   CriptocurrencyForm,
   FixedIncomeEuaForm,
-  FixedIncomeForm,
+  FixedIncomeAndTreasuryForm,
   FundForm,
   GenericForm,
   OtherForm,
 } from "./forms";
 import { InputLabelGroup } from "@/components";
-import { Button } from "@/components/ui/button";
 
 const NewAsset = () => {
   const [category, setCategory] = useState("");
@@ -20,7 +19,9 @@ const NewAsset = () => {
       case "stockExchange":
         return <GenericForm categotySelected={category} />;
       case "fixedIncome":
-        return <FixedIncomeForm categotySelected={category} />;
+        return <FixedIncomeAndTreasuryForm categotySelected={category} />;
+      case "treasury":
+        return <FixedIncomeAndTreasuryForm categotySelected={category} />;
       case "fixedIncomeEua":
         return <FixedIncomeEuaForm categotySelected={category} />;
       case "fund":
@@ -46,7 +47,6 @@ const NewAsset = () => {
         </InputLabelGroup>
         {renderForm()}
       </div>
-      <Button className="ml-auto">Salvar</Button>
     </div>
   );
 };

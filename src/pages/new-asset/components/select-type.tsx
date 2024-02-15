@@ -17,10 +17,16 @@ import {
 
 interface SelectTypeProps {
   categotySelected: string;
+  onChange: (...event: any[]) => void;
+  value: string;
 }
 
-export const SelectType = ({ categotySelected }: SelectTypeProps) => {
-  const getAssetsByCategory = () => {
+export const SelectType = ({
+  categotySelected,
+  onChange,
+  value,
+}: SelectTypeProps) => {
+  const getAssetsTypeByCategory = () => {
     switch (categotySelected) {
       case "stockExchange":
         return financialAssets;
@@ -36,10 +42,10 @@ export const SelectType = ({ categotySelected }: SelectTypeProps) => {
     }
   };
 
-  const assetList = getAssetsByCategory();
+  const assetList = getAssetsTypeByCategory();
 
   return (
-    <Select>
+    <Select onValueChange={onChange} value={value}>
       <SelectTrigger>
         <SelectValue placeholder="" />
       </SelectTrigger>

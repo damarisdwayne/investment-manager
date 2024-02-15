@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { QuestionData, addQuestion } from "@/services/question";
+import { QuestionData, addQuestion } from "@/services/questions";
 import { useState } from "react";
 
 export const AddQuestionDialog = () => {
@@ -39,8 +39,15 @@ export const AddQuestionDialog = () => {
 
   const { criterion, question, diagramType } = watch();
 
+  const generateQuestionId = () => {
+    return criterion?.toLowerCase().replace(/\s+/g, "_");
+  };
+
+  const questionId = generateQuestionId() || "";
+
   const onSubmit = async () => {
     const dataToSend: QuestionData = {
+      questionId,
       criterion,
       question,
       diagramType,

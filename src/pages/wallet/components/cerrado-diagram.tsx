@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { QuestionData, getQuestionByDiagramType } from "@/services/question";
+import { QuestionData, getQuestionByDiagramType } from "@/services/questions";
 import { DiagramTable } from "./diagram-table";
 
 export const CerradoDiagram: React.FC = () => {

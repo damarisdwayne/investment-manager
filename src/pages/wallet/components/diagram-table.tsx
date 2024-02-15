@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { QuestionData } from "@/services/question";
+import { QuestionData } from "@/services/questions";
 
 interface DiagramTableProps {
   questions: QuestionData[] | null;

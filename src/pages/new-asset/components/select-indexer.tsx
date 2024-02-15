@@ -10,10 +10,11 @@ import {
 } from "@/components/ui/select";
 
 interface SelectIndexerProps {
-  setIndexer: React.Dispatch<React.SetStateAction<string>>;
+  onChange: (...event: any[]) => void;
+  value: string | undefined;
 }
 
-export const SelectIndexer = ({ setIndexer }: SelectIndexerProps) => {
+export const SelectIndexer = ({ onChange, value }: SelectIndexerProps) => {
   const indexerOptions = [
     { option: "CDI", value: "CDI" },
     { option: "IPCA", value: "IPCA" },
@@ -24,7 +25,7 @@ export const SelectIndexer = ({ setIndexer }: SelectIndexerProps) => {
   ];
 
   return (
-    <Select onValueChange={(indexer) => setIndexer(indexer)}>
+    <Select onValueChange={onChange} value={value}>
       <SelectTrigger>
         <SelectValue placeholder="" />
       </SelectTrigger>
