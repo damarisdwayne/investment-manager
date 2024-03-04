@@ -142,6 +142,9 @@ export const FixedIncomeAndTreasuryForm = ({
         <InputLabelGroup label="Total investido">
           <Input id="total" type="number" {...register("total")} />
         </InputLabelGroup>
+        <InputLabelGroup label="Nota">
+          <Input id="total" type="number" {...register("rate")} />
+        </InputLabelGroup>
       </div>
       <Button type="submit" className="self-end w-auto">
         Salvar

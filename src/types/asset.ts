@@ -14,7 +14,7 @@ export type Customer = {
 
 export interface INewAsset {
   ticker: string;
-  assetName: string;
+  assetName: string | null;
   exchangeName: any;
   total: number;
   operation: string;
@@ -29,8 +29,8 @@ export interface INewAsset {
   price?: number;
   market?: string;
   marketType?: number;
-  sector?: string;
-  sectorKey?: string;
+  sector?: string | null;
+  sectorKey?: string | null;
   segment?: string;
   cnpj?: string;
   cnpjAdmin?: string;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { QuestionData, getQuestionByDiagramType } from "@/services/questions";
-import { DiagramTable } from "./diagram-table";
+import { DiagramTable } from "@/components";
 
 export const FiiDiagram: React.FC = () => {
   const [questions, setQuestions] = useState<QuestionData[] | null>(null);
@@ -14,5 +14,5 @@ export const FiiDiagram: React.FC = () => {
     getQuestions();
   }, []);
 
-  return <DiagramTable questions={questions} />;
+  return <DiagramTable questions={questions} action="edit" />;
 };

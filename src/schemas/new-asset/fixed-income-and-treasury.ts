@@ -16,5 +16,5 @@ export const FixedIncomeAndTreasurySchema = yup.object().shape({
     then: (schema) => schema.required("% do é obrigatório"),
   }),
   total: yup.number().required("O total é obrigatório"),
-  rate: yup.number(),
+  rate: yup.number().required("A avaliação é obrigatória"),
 });

@@ -1,13 +1,21 @@
-import { Input } from "@/components/ui/input";
-import { SelectAsset, SelectOperation, SelectType } from "../components";
-import { InputLabelGroup } from "@/components";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { genericSchema } from "@/schemas/new-asset/generic";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { SelectAsset, SelectOperation, SelectType } from "../components";
+import { DiagramTable, InputLabelGroup } from "@/components";
 import { getAssetsFromB3, getAssetInfo, addAsset } from "@/services/asset";
-import { addAnswer } from "@/services/questions";
+import {
+  AnswerData,
+  QuestionData,
+  addAnswer,
+  getQuestionByDiagramType,
+} from "@/services/questions";
+import { useNavigate } from "react-router-dom";
+import { DefaultRoutes } from "@/routes/routes";
+import { INewAsset } from "@/types/asset";
 
 interface GenericFormProps {
   categotySelected: string;
@@ -15,14 +23,22 @@ interface GenericFormProps {
 
 export const GenericForm = ({ categotySelected }: GenericFormProps) => {
   const [assetCodeList, setAssetCodeList] = useState<string[]>();
+  const [questions, setQuestions] = useState<QuestionData[]>();
+  const [answers, setAnswers] = useState<AnswerData[]>([]);
+  const navigate = useNavigate();
   const {
     watch,
     handleSubmit,
     control,
     register,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(genericSchema),
+    defaultValues: {
+      date: new Date(),
+      rate: 0,
+    },
   });
 
   const {
@@ -61,68 +77,91 @@ export const GenericForm = ({ categotySelected }: GenericFormProps) => {
     }
   };
 
-  const saveAnswer = async () => {
-    await addAnswer("BBSE3", [{ questionId: "123", answer: "tutistuis" }]);
-    console.log("teste");
-  };
-
-  const getAssetCode = async () => {
-    const assetType = type === "fii" ? "fund" : "stock";
-    const assets = await getAssetsFromB3(assetType);
-    const assetCodeList = assets.stocks?.map((item) => item.stock);
-    setAssetCodeList(assetCodeList);
-  };
-
   const operationType = getOperationType();
   const market =
     type !== "etfUsa" && type !== "reit"
       ? "Bovespa"
       : "New York Stock Exchange";
+
   const marketType = type !== "etfUsa" && type !== "reit" ? 1 : 2;
+
+  const hasDiagramTable =
+    type === "fii" || type === "stock" || type === "fiAgro";
+
+  const saveAnswer = async () => {
+    await addAnswer(ticker, answers);
+  };
+
+  const getQuestions = async () => {
+    const diagramType = type === "fii" ? "fiiDiagram" : "cerradoDiagram";
+    const questions = await getQuestionByDiagramType(diagramType);
+    setQuestions(questions);
+  };
+
+  const getAssetCode = async () => {
+    const assetType =
+      type === "fii" ? "fund" : type === "stock" ? "stock" : undefined;
+
+    if (!assetType) return;
+
+    const assets = await getAssetsFromB3(assetType);
+    const assetCodeList = assets.stocks?.map((item) => item.stock);
+    setAssetCodeList(assetCodeList);
+  };
+
+  const getRate = () => {
+    const yesAnswers = answers?.filter((answer) => answer.answer === "yes");
+    const noAnswers = answers?.filter((answer) => answer.answer === "no");
+    const rate = yesAnswers.length - noAnswers.length;
+    setValue("rate", rate);
+  };
 
   useEffect(() => {
     if (type) {
       getAssetCode();
+      getQuestions();
     }
   }, [type]);
 
-  useEffect(() => {
-    saveAnswer();
-  }, []);
-
   const onSubmit = async () => {
-    let assetInfo;
+    try {
+      let assetInfo;
 
-    if (type === "stock" || type === "fii" || type === "bdr") {
-      assetInfo = await getAssetInfo(ticker);
+      if (type === "stock" || type === "fii" || type === "bdr") {
+        assetInfo = await getAssetInfo(ticker);
+      }
+
+      const assetData = assetInfo?.results?.[0];
+      const { longName, summaryProfile } = assetData ?? {};
+
+      getRate();
+
+      const dataToSend: INewAsset = {
+        ticker,
+        assetName: longName || null,
+        exchangeName,
+        qtd: quantity,
+        price,
+        market,
+        marketType,
+        total,
+        sector: summaryProfile?.sector || null,
+        sectorKey: summaryProfile?.sectorKey || null,
+        category: 1,
+        categoryName: categotySelected,
+        assetGroup: type,
+        rate: rate ? +rate : null,
+        operation,
+        operationDate: date,
+        operationType,
+      };
+
+      await addAsset(dataToSend);
+      await saveAnswer();
+      navigate(DefaultRoutes.WALLET);
+    } catch (error) {
+      console.log(error);
     }
-
-    const assetData = assetInfo?.results?.[0];
-    const { longName, summaryProfile } = assetData ?? {};
-
-    const dataToSend = {
-      ticker,
-      assetName: longName || "",
-      exchangeName,
-      qtd: quantity,
-      price,
-      market,
-      marketType,
-      total,
-      sector: summaryProfile?.sector || "",
-      sectorKey: summaryProfile?.sectorKey || "",
-      category: 1,
-      categoryName: categotySelected,
-      assetGroup: type,
-      rate: rate || "",
-      operation,
-      operationDate: date,
-      operationType,
-    };
-
-    console.log(dataToSend);
-
-    await addAsset(dataToSend);
   };
 
   return (
@@ -196,6 +235,18 @@ export const GenericForm = ({ categotySelected }: GenericFormProps) => {
           <Input id="price" type="number" {...register("price")} />
         </InputLabelGroup>
       </div>
+      {hasDiagramTable ? (
+        <DiagramTable
+          questions={questions!}
+          action="switch"
+          answers={answers}
+          setAnswers={setAnswers}
+        />
+      ) : (
+        <InputLabelGroup label="Nota" errorMessage={errors.rate?.message}>
+          <Input id="rate" type="number" {...register("rate")} />
+        </InputLabelGroup>
+      )}
       <Button type="submit" className="self-end w-auto">
         Salvar
       </Button>
