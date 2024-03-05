@@ -1,5 +1,4 @@
 import { Input } from "@/components/ui/input";
-import { SelectOperation, SelectType } from "../components";
 import { InputLabelGroup } from "@/components";
 
 interface FundFormProps {

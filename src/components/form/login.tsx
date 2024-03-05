@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { loginSchema } from "@/schemas";
 import { useAuthData } from "@/context/use-auth-data";
 import { useNavigate } from "react-router-dom";
-import { InputLabelGroup } from "../input-label-group";
+import { InputLabelGroup } from "./input-label-group";
 import { Input } from "../ui/input";
 import { DefaultRoutes } from "@/routes/routes";
 

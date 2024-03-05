@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "@/components/ui/button";
 import { registerSchema } from "@/schemas";
 import { useAuthData } from "@/context/use-auth-data";
-import { InputLabelGroup } from "../input-label-group";
+import { InputLabelGroup } from "./input-label-group";
 import { Input } from "../ui/input";
 
 interface RegisterFormProps {

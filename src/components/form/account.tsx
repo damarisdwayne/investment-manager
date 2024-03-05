@@ -1,6 +1,5 @@
 import { Input } from "@/components/ui/input";
-import { SelectOperation, SelectType } from "../components";
-import { InputLabelGroup } from "@/components";
+import { InputLabelGroup, SelectOperation, SelectType } from "@/components";
 
 interface AccountFormProps {
   categotySelected: string;

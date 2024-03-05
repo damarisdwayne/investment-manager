@@ -6,8 +6,9 @@ export const FiiDiagram: React.FC = () => {
   const [questions, setQuestions] = useState<QuestionData[] | null>(null);
 
   const getQuestions = async () => {
-    const question = await getQuestionByDiagramType("fiiDiagram");
+    const question = await getQuestionByDiagramType("fii");
     setQuestions(question);
+    console.log(questions);
   };
 
   useEffect(() => {

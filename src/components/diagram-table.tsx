@@ -50,7 +50,6 @@ export const DiagramTable: React.FC<DiagramTableProps> = ({
     }
 
     setAnswers && setAnswers(updatedAnswers);
-    console.log(updatedAnswers, answers);
   };
 
   return (
@@ -70,37 +69,43 @@ export const DiagramTable: React.FC<DiagramTableProps> = ({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {questions?.map(({ id, questionId, question, criterion }) => (
-              <TableRow key={id}>
-                <TableCell className="text-left">{criterion}</TableCell>
-                <TableCell className="text-center">{question}</TableCell>
-                <TableCell className="flex flex-end text-end">
-                  {action === "switch" ? (
-                    <Select
-                      key={id}
-                      onValueChange={(value) =>
-                        handleSwitchChange(questionId!, value)
-                      }
-                    >
-                      <SelectTrigger className="w-[80px] ml-auto">
-                        <SelectValue placeholder="" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Resposta</SelectLabel>
-                          <SelectItem value="yes">Sim</SelectItem>
-                          <SelectItem value="no">Não</SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  ) : (
-                    <Button className="gap-1  ml-auto">
-                      <Pencil1Icon /> Editar
-                    </Button>
-                  )}
-                </TableCell>
-              </TableRow>
-            ))}
+            {questions?.map(({ id, questionId, question, criterion }) => {
+              const answer = answers?.find(
+                (answer) => answer.questionId === questionId,
+              );
+              return (
+                <TableRow key={id}>
+                  <TableCell className="text-left">{criterion}</TableCell>
+                  <TableCell className="text-center">{question}</TableCell>
+                  <TableCell className="flex flex-end text-end">
+                    {action === "switch" ? (
+                      <Select
+                        key={id}
+                        value={answer?.answer}
+                        onValueChange={(value) =>
+                          handleSwitchChange(questionId!, value)
+                        }
+                      >
+                        <SelectTrigger className="w-[80px] ml-auto">
+                          <SelectValue placeholder="" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Resposta</SelectLabel>
+                            <SelectItem value="yes">Sim</SelectItem>
+                            <SelectItem value="no">Não</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    ) : (
+                      <Button className="gap-1  ml-auto">
+                        <Pencil1Icon /> Editar
+                      </Button>
+                    )}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </CardContent>

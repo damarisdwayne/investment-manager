@@ -1,14 +1,18 @@
 import { Input } from "@/components/ui/input";
-import { SelectOperation, SelectType } from "../components";
-import { SelectFee, SelectIndexer } from "../components";
-import { InputLabelGroup } from "@/components";
+import {
+  InputLabelGroup,
+  SelectFee,
+  SelectIndexer,
+  SelectOperation,
+  SelectType,
+} from "@/components";
 import { Controller, useForm } from "react-hook-form";
 import { addAsset } from "@/services/asset";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FixedIncomeAndTreasurySchema } from "@/schemas/new-asset/fixed-income-and-treasury";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
-import { INewAsset } from "@/types/asset";
+import { IAsset } from "@/types/asset";
 
 interface FixedIncomeAndTreasuryFormProps {
   categotySelected: string;
@@ -58,7 +62,7 @@ export const FixedIncomeAndTreasuryForm = ({
     : "";
 
   const onSubmit = async () => {
-    const dataToSend: INewAsset = {
+    const dataToSend: IAsset = {
       ticker,
       assetName: type,
       exchangeName,

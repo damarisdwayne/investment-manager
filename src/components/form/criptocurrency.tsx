@@ -1,6 +1,5 @@
 import { Input } from "@/components/ui/input";
-import { SelectOperation } from "../components";
-import { InputLabelGroup } from "@/components";
+import { InputLabelGroup, SelectOperation } from "@/components";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { criptocurrencySchema } from "@/schemas/new-asset/criptocurrency";

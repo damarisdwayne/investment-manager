@@ -15,6 +15,7 @@ interface SelectAssetProps {
   type: string;
   value: string;
   onChange: (...event: any[]) => void;
+  disabled?: boolean;
 }
 
 export const SelectAsset = ({
@@ -22,9 +23,14 @@ export const SelectAsset = ({
   type,
   value,
   onChange,
+  disabled,
 }: SelectAssetProps) => {
   return type === "fii" || type === "stock" ? (
-    <Select value={value} onValueChange={onChange}>
+    <Select
+      value={value?.toString()}
+      onValueChange={onChange}
+      disabled={disabled}
+    >
       <SelectTrigger>
         <SelectValue placeholder="" />
       </SelectTrigger>

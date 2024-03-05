@@ -1,4 +1,30 @@
-export const assetList = [
+export enum AssetGroup {
+  STOCK = "stock",
+  STOCK_USA = "stockUsa",
+  BDR = "bdr",
+  SUBSCRIPTION_RIGHT = "subscriptionRight",
+  ETF = "etf",
+  FI_AGRO = "fiAgro",
+  FII = "fii",
+  REIT = "reit",
+  TREASURY = "treasury",
+  CCB = "ccb",
+  CDB = "cdb",
+  CRA = "cra",
+  CRI = "cri",
+  DEBENTURE = "debenture",
+  DEBENTURE_INCENTIVADA = "debentureIncentivada",
+  FIDC = "fidc",
+  LC = "lc",
+  LCA = "lca",
+  LCI = "lci",
+  LF = "lf",
+  LIG = "lig",
+  RDB = "rdb",
+  RDC = "rdc",
+}
+
+export const assetListType = [
   { label: "Todos", bgColor: "slate-50" },
   { label: "Ações Internacionais", bgColor: "international-stocks" },
   { label: "Ações Nacionais", bgColor: "national-stocks" },

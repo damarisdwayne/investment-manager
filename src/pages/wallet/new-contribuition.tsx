@@ -1,7 +1,7 @@
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { NewContribuitionTable } from "./components/new-contribuition-table";
-import { InputLabelGroup } from "@/components/input-label-group";
+import { InputLabelGroup } from "@/components/form/input-label-group";
 import { Button } from "@/components/ui/button";
 
 export const NewContribuition: React.FC = () => {

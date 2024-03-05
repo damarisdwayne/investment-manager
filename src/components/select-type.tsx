@@ -19,12 +19,14 @@ interface SelectTypeProps {
   categotySelected: string;
   onChange: (...event: any[]) => void;
   value: string;
+  disabled?: boolean;
 }
 
 export const SelectType = ({
   categotySelected,
   onChange,
   value,
+  disabled,
 }: SelectTypeProps) => {
   const getAssetsTypeByCategory = () => {
     switch (categotySelected) {
@@ -45,7 +47,7 @@ export const SelectType = ({
   const assetList = getAssetsTypeByCategory();
 
   return (
-    <Select onValueChange={onChange} value={value}>
+    <Select onValueChange={onChange} value={value} disabled={disabled}>
       <SelectTrigger>
         <SelectValue placeholder="" />
       </SelectTrigger>

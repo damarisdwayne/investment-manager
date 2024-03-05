@@ -1,15 +1,14 @@
-import { SelectCategory } from "./components";
 import { useState } from "react";
+import { InputLabelGroup, SelectCategory } from "@/components";
 import {
-  AccountForm,
-  CriptocurrencyForm,
-  FixedIncomeEuaForm,
-  FixedIncomeAndTreasuryForm,
-  FundForm,
   GenericForm,
+  FixedIncomeAndTreasuryForm,
+  FixedIncomeEuaForm,
+  FundForm,
+  CriptocurrencyForm,
+  AccountForm,
   OtherForm,
-} from "./forms";
-import { InputLabelGroup } from "@/components";
+} from "@/components/form";
 
 const NewAsset = () => {
   const [category, setCategory] = useState("");

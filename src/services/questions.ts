@@ -15,7 +15,7 @@ export interface QuestionData {
   questionId?: string;
   criterion: string;
   question: string;
-  diagramType: "cerradoDiagram" | "fiiDiagram" | string;
+  diagramType: "cerradoDiagram" | "fii" | string;
 }
 export interface AnswerData {
   questionId?: string;

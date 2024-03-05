@@ -4,28 +4,53 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { genericSchema } from "@/schemas/new-asset/generic";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { SelectAsset, SelectOperation, SelectType } from "../components";
-import { DiagramTable, InputLabelGroup } from "@/components";
-import { getAssetsFromB3, getAssetInfo, addAsset } from "@/services/asset";
+import {
+  DiagramTable,
+  InputLabelGroup,
+  SelectAsset,
+  SelectOperation,
+  SelectType,
+} from "@/components";
+import {
+  getAssetsFromB3,
+  getAssetInfo,
+  addAsset,
+  getAssetAnswers,
+} from "@/services/asset";
 import {
   AnswerData,
   QuestionData,
-  addAnswer,
   getQuestionByDiagramType,
 } from "@/services/questions";
 import { useNavigate } from "react-router-dom";
 import { DefaultRoutes } from "@/routes/routes";
-import { INewAsset } from "@/types/asset";
+import { IAsset } from "@/types/asset";
+import { formatNumberToCurrency, parseCurrencyToNumber } from "@/utils";
+
+type DefaultValuesData = {
+  ticker: string;
+  operation: string;
+  exchangeName: string;
+  type: string;
+  rate: number | undefined;
+};
 
 interface GenericFormProps {
   categotySelected: string;
+  isEditMode?: boolean;
+  defaultValues?: DefaultValuesData;
 }
 
-export const GenericForm = ({ categotySelected }: GenericFormProps) => {
+export const GenericForm = ({
+  categotySelected,
+  defaultValues,
+  isEditMode,
+}: GenericFormProps) => {
   const [assetCodeList, setAssetCodeList] = useState<string[]>();
   const [questions, setQuestions] = useState<QuestionData[]>();
   const [answers, setAnswers] = useState<AnswerData[]>([]);
   const navigate = useNavigate();
+
   const {
     watch,
     handleSubmit,
@@ -36,8 +61,11 @@ export const GenericForm = ({ categotySelected }: GenericFormProps) => {
   } = useForm({
     resolver: yupResolver(genericSchema),
     defaultValues: {
-      date: new Date(),
-      rate: 0,
+      exchangeName: defaultValues?.exchangeName || undefined,
+      ticker: defaultValues?.ticker || undefined,
+      type: defaultValues?.type || undefined,
+      date: new Date().toISOString().slice(0, 10) || undefined,
+      rate: defaultValues?.rate || 0,
     },
   });
 
@@ -50,7 +78,6 @@ export const GenericForm = ({ categotySelected }: GenericFormProps) => {
     total,
     ticker,
     type,
-    rate,
   } = watch();
 
   const getOperationType = () => {
@@ -88,12 +115,8 @@ export const GenericForm = ({ categotySelected }: GenericFormProps) => {
   const hasDiagramTable =
     type === "fii" || type === "stock" || type === "fiAgro";
 
-  const saveAnswer = async () => {
-    await addAnswer(ticker, answers);
-  };
-
   const getQuestions = async () => {
-    const diagramType = type === "fii" ? "fiiDiagram" : "cerradoDiagram";
+    const diagramType = type === "fii" ? "fii" : "cerradoDiagram";
     const questions = await getQuestionByDiagramType(diagramType);
     setQuestions(questions);
   };
@@ -110,10 +133,18 @@ export const GenericForm = ({ categotySelected }: GenericFormProps) => {
   };
 
   const getRate = () => {
-    const yesAnswers = answers?.filter((answer) => answer.answer === "yes");
-    const noAnswers = answers?.filter((answer) => answer.answer === "no");
-    const rate = yesAnswers.length - noAnswers.length;
-    setValue("rate", rate);
+    let rate = 0;
+    if (answers) {
+      answers.forEach((answer) => {
+        if (answer.answer === "yes") {
+          rate++;
+        } else if (answer.answer === "no") {
+          rate--;
+        }
+      });
+    }
+    // setValue("rate", rate);
+    return rate;
   };
 
   useEffect(() => {
@@ -122,6 +153,31 @@ export const GenericForm = ({ categotySelected }: GenericFormProps) => {
       getQuestions();
     }
   }, [type]);
+
+  const getAnswers = async () => {
+    const data = await getAssetAnswers(ticker);
+    setAnswers(data as AnswerData[]);
+  };
+
+  useEffect(() => {
+    if (isEditMode) {
+      getAnswers();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (total && quantity) {
+      const sumPrice =
+        parseCurrencyToNumber(total) /
+        parseCurrencyToNumber(quantity.toString());
+      setValue("price", formatNumberToCurrency(sumPrice.toString()));
+    } else if (quantity && price) {
+      const sumTotal =
+        parseCurrencyToNumber(quantity.toString()) *
+        parseCurrencyToNumber(price);
+      setValue("total", formatNumberToCurrency(sumTotal.toString()));
+    }
+  }, [total, quantity, price]);
 
   const onSubmit = async () => {
     try {
@@ -134,30 +190,26 @@ export const GenericForm = ({ categotySelected }: GenericFormProps) => {
       const assetData = assetInfo?.results?.[0];
       const { longName, summaryProfile } = assetData ?? {};
 
-      getRate();
-
-      const dataToSend: INewAsset = {
+      const dataToSend: IAsset = {
         ticker,
         assetName: longName || null,
         exchangeName,
-        qtd: quantity,
-        price,
+        qtd: +quantity,
+        price: parseCurrencyToNumber(price),
         market,
         marketType,
-        total,
+        total: parseCurrencyToNumber(total),
         sector: summaryProfile?.sector || null,
         sectorKey: summaryProfile?.sectorKey || null,
         category: 1,
         categoryName: categotySelected,
         assetGroup: type,
-        rate: rate ? +rate : null,
+        rate: getRate(),
         operation,
         operationDate: date,
         operationType,
       };
-
-      await addAsset(dataToSend);
-      await saveAnswer();
+      await addAsset(dataToSend, answers);
       navigate(DefaultRoutes.WALLET);
     } catch (error) {
       console.log(error);
@@ -176,6 +228,7 @@ export const GenericForm = ({ categotySelected }: GenericFormProps) => {
                 onChange={field.onChange}
                 value={field.value}
                 categotySelected={categotySelected}
+                disabled={isEditMode}
               />
             </InputLabelGroup>
           )}
@@ -209,6 +262,7 @@ export const GenericForm = ({ categotySelected }: GenericFormProps) => {
                 onChange={field.onChange}
                 assetCodeList={assetCodeList!}
                 type={type}
+                disabled={isEditMode}
               />
             </InputLabelGroup>
           )}
@@ -217,13 +271,25 @@ export const GenericForm = ({ categotySelected }: GenericFormProps) => {
           label="Instituição"
           errorMessage={errors.exchangeName?.message}
         >
-          <Input id="exchangeName" type="text" {...register("exchangeName")} />
+          <Input
+            id="exchangeName"
+            type="text"
+            {...register("exchangeName")}
+            disabled={isEditMode}
+          />
         </InputLabelGroup>
         <InputLabelGroup label="Data" errorMessage={errors.date?.message}>
           <Input type="date" {...register("date")} />
         </InputLabelGroup>
         <InputLabelGroup label="Total" errorMessage={errors.total?.message}>
-          <Input id="total" type="number" {...register("total")} />
+          <Input
+            id="total"
+            type="text"
+            {...register("total")}
+            onChange={(e) =>
+              setValue("total", formatNumberToCurrency(e.target.value))
+            }
+          />
         </InputLabelGroup>
         <InputLabelGroup
           label="Quantidade"
@@ -232,7 +298,14 @@ export const GenericForm = ({ categotySelected }: GenericFormProps) => {
           <Input id="quantity" type="number" {...register("quantity")} />
         </InputLabelGroup>
         <InputLabelGroup label="Preço" errorMessage={errors.price?.message}>
-          <Input id="price" type="number" {...register("price")} />
+          <Input
+            id="price"
+            type="text"
+            {...register("price")}
+            onChange={(e) =>
+              setValue("price", formatNumberToCurrency(e.target.value))
+            }
+          />
         </InputLabelGroup>
       </div>
       {hasDiagramTable ? (

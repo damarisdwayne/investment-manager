@@ -12,7 +12,12 @@ export type Customer = {
   isAdmin?: boolean;
 };
 
-export interface INewAsset {
+export interface AnswerData {
+  questionId?: string;
+  answer: string;
+}
+
+export interface IAsset {
   ticker: string;
   assetName: string | null;
   exchangeName: any;
@@ -20,6 +25,7 @@ export interface INewAsset {
   operation: string;
   operationType: number;
   operationDate: string | Date;
+  id?: string;
   dueDate?: string | Date;
   category: number;
   categoryName: string;
