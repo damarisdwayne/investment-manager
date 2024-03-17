@@ -95,7 +95,7 @@ export const NewContribuitionTable: React.FC<NewContribuitionTableProps> = ({
                       </TableCell>
                       <TableCell>{removeSAFromText(ticker)}</TableCell>
                       <TableCell>{formatToRealCurrency(price)}</TableCell>
-                      <TableCell>{qtd}</TableCell>
+                      <TableCell>{qtd === 0 ? 1 : qtd}</TableCell>
                       <TableCell>{rate}</TableCell>
                       <TableCell>
                         {formattedPercentage(recommendedPercentage || 0)}

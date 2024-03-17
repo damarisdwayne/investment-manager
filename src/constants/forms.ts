@@ -107,7 +107,6 @@ export const treasuryOperation = [
 ];
 
 export const cryptocurrencyOperation = [
-  { option: "", value: "" },
   { option: "manualBuy", value: "Compra" },
   { option: "manualSell", value: "Venda" },
   { option: "importCryptoBuy", value: "Permuta - Compra" },

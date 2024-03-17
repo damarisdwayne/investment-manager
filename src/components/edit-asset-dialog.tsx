@@ -8,7 +8,11 @@ import {
 } from "@/components/ui/dialog";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { AssetGroup } from "@/constants";
-import { FixedIncomeAndTreasuryForm, GenericForm } from "./forms";
+import {
+  CryptocurrencyForm,
+  FixedIncomeAndTreasuryForm,
+  GenericForm,
+} from "./forms";
 
 interface EditAssetProps {
   asset: {
@@ -65,8 +69,14 @@ export const EditAssetDialog = ({ asset }: EditAssetProps) => {
       case "fixedIncome":
       case "treasury":
         return <FixedIncomeAndTreasuryForm categotySelected={category} />;
-      // case "cryptocurrency":
-      //   return <CriptocurrencyForm categotySelected={category} />;
+      case "cryptocurrency":
+        return (
+          <CryptocurrencyForm
+            defaultValues={{ ticker, exchangeName, rate }}
+            isEditMode
+            categotySelected={category}
+          />
+        );
 
       default:
         return renderGenericForm();

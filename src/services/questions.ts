@@ -2,6 +2,7 @@ import {
   DocumentSnapshot,
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDocs,
   query,
@@ -29,6 +30,41 @@ export const addQuestion = async (questionData: QuestionData) => {
     await addDoc(userQuestionsRef, questionData);
   } catch (error) {
     throw new Error("Erro ao adicionar pergunta");
+  }
+};
+
+export const editQuestion = async (
+  questionId: string,
+  newData: QuestionData,
+) => {
+  try {
+    const currentUser = auth.currentUser?.uid;
+    const userQuestionRef = doc(
+      db,
+      "users",
+      currentUser!,
+      "questions",
+      questionId,
+    );
+    await setDoc(userQuestionRef, newData, { merge: true });
+  } catch (error) {
+    throw new Error("Erro ao editar pergunta");
+  }
+};
+
+export const deleteQuestion = async (questionId: string) => {
+  try {
+    const currentUser = auth.currentUser?.uid;
+    const userQuestionRef = doc(
+      db,
+      "users",
+      currentUser!,
+      "questions",
+      questionId,
+    );
+    await deleteDoc(userQuestionRef);
+  } catch (error) {
+    throw new Error("Erro ao excluir pergunta");
   }
 };
 

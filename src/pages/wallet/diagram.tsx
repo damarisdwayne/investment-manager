@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Toggle } from "@/components/ui/toggle";
-import { AddQuestionDialog } from "@/components/add-question-dialog";
+import { QuestionDialog } from "@/components";
 import { CerradoDiagram } from "./components/cerrado-diagram";
 import { FiiDiagram } from "./components/fiiDiagram";
 
@@ -19,7 +19,7 @@ const Diagram: React.FC = () => {
       </div>
       <div className="flex gap-2">
         {/* <Input className="w-[200px]" type="text" placeholder="Pesquisar" /> */}
-        <AddQuestionDialog />
+        <QuestionDialog />
       </div>
       <div className="flex flex-col gap-4">
         <h3>Tipo de diagrama</h3>

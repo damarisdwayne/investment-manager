@@ -20,10 +20,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { QuestionData, addQuestion } from "@/services/questions";
+import { QuestionData, addQuestion, editQuestion } from "@/services/questions";
 import { useState } from "react";
+import { Pencil1Icon } from "@radix-ui/react-icons";
+import { DialogClose } from "@radix-ui/react-dialog";
 
-export const AddQuestionDialog = () => {
+interface QuestionDialogProps {
+  isEditMode?: boolean;
+  defaultValues?: {
+    id: string;
+    criterion: string;
+    question: string;
+    diagramType: string;
+  };
+}
+
+export const QuestionDialog = ({
+  isEditMode,
+  defaultValues,
+}: QuestionDialogProps) => {
   const [isOpen, setOpen] = useState(false);
   const {
     register,
@@ -35,6 +50,11 @@ export const AddQuestionDialog = () => {
   } = useForm({
     mode: "onBlur",
     resolver: yupResolver(questionSchema),
+    defaultValues: {
+      criterion: defaultValues?.criterion || "",
+      question: defaultValues?.question || "",
+      diagramType: defaultValues?.diagramType || "",
+    },
   });
 
   const { criterion, question, diagramType } = watch();
@@ -53,7 +73,13 @@ export const AddQuestionDialog = () => {
       diagramType,
     };
 
-    await addQuestion(dataToSend);
+    if (isEditMode) {
+      const id = defaultValues?.id || "";
+      await editQuestion(id, dataToSend);
+    } else {
+      await addQuestion(dataToSend);
+    }
+
     reset();
     setOpen(false);
   };
@@ -61,11 +87,15 @@ export const AddQuestionDialog = () => {
   return (
     <Dialog onOpenChange={setOpen} open={isOpen}>
       <DialogTrigger asChild>
-        <Button onClick={() => setOpen(true)}>Adicionar pergunta</Button>
+        <Button onClick={() => setOpen(true)}>
+          {isEditMode ? <Pencil1Icon /> : "Adicionar pergunta"}
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] rounded">
         <DialogHeader>
-          <DialogTitle>Adicionar pergunta</DialogTitle>
+          <DialogTitle>
+            {isEditMode ? "Editar pergunta" : "Adicionar pergunta"}
+          </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <InputLabelGroup
@@ -91,6 +121,7 @@ export const AddQuestionDialog = () => {
                 <Select
                   {...field}
                   onValueChange={(value) => field.onChange(value)}
+                  disabled={isEditMode}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="" />
@@ -113,6 +144,11 @@ export const AddQuestionDialog = () => {
             )}
           />
           <DialogFooter>
+            <DialogClose asChild>
+              <Button type="button" variant="secondary">
+                Cancelar
+              </Button>
+            </DialogClose>
             <Button type="submit">Salvar</Button>
           </DialogFooter>
         </form>

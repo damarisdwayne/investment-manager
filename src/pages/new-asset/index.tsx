@@ -5,7 +5,7 @@ import {
   FixedIncomeAndTreasuryForm,
   FixedIncomeEuaForm,
   FundForm,
-  CriptocurrencyForm,
+  CryptocurrencyForm,
   AccountForm,
   OtherForm,
 } from "@/components/forms";
@@ -25,8 +25,8 @@ const NewAsset = () => {
         return <FixedIncomeEuaForm categotySelected={category} />;
       case "fund":
         return <FundForm categotySelected={category} />;
-      case "crypto":
-        return <CriptocurrencyForm categotySelected={category} />;
+      case "cryptocurrency":
+        return <CryptocurrencyForm categotySelected={category} />;
       case "account":
         return <AccountForm categotySelected={category} />;
       case "other":

@@ -14,6 +14,9 @@ import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { IAsset } from "@/types/asset";
 import { formatNumberToCurrency, parseCurrencyToNumber } from "@/utils";
+import { DefaultRoutes } from "@/routes/routes";
+import { useNavigate } from "react-router-dom";
+import { AssetGroupToCategory } from "@/constants";
 
 interface FixedIncomeAndTreasuryFormProps {
   categotySelected: string;
@@ -22,6 +25,8 @@ interface FixedIncomeAndTreasuryFormProps {
 export const FixedIncomeAndTreasuryForm = ({
   categotySelected,
 }: FixedIncomeAndTreasuryFormProps) => {
+  const navigate = useNavigate();
+
   const { control, watch, register, setValue, handleSubmit } = useForm({
     resolver: yupResolver(FixedIncomeAndTreasurySchema),
     defaultValues: {
@@ -62,6 +67,8 @@ export const FixedIncomeAndTreasuryForm = ({
 
   const market = categotySelected === "treasury" ? "Tesouro" : "Renda fixa";
   const marketType = categotySelected === "treasury" ? 3 : 4;
+  const category =
+    AssetGroupToCategory[type as keyof typeof AssetGroupToCategory];
 
   const ticker = isRequiredFieldsFilled
     ? `${type} ${fee} ${percentage}% ${indexer ? indexer : ""} ${
@@ -81,7 +88,7 @@ export const FixedIncomeAndTreasuryForm = ({
       total: parseCurrencyToNumber(total),
       sector: type,
       industry: type,
-      category: 2,
+      category,
       categoryName: categotySelected,
       assetGroup: "fixedIncome",
       rate: rate || null,
@@ -94,6 +101,7 @@ export const FixedIncomeAndTreasuryForm = ({
     };
 
     await addAsset(dataToSend);
+    navigate(DefaultRoutes.WALLET);
   };
 
   return (

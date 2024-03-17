@@ -68,7 +68,7 @@ export const NewContribuition: React.FC = () => {
     fii: goal?.fii[0] || 0,
     reits: goal?.reits[0] || 0,
     fixedIncome: goal?.fixedIncome[0] || 0,
-    criptocurrency: goal?.criptocurrency[0] || 0,
+    cryptocurrency: goal?.cryptocurrency[0] || 0,
     gold: goal?.gold[0] || 0,
   };
 
@@ -154,6 +154,8 @@ export const NewContribuition: React.FC = () => {
       fixedIncome: ["fixedIncome", "treasury"],
       usa: ["etfUsa", "stockUsa"],
       reit: ["reit"],
+      cryptocurrency: ["cryptocurrency"],
+      gold: ["gold"],
     };
 
     const rateTotals: Record<string, number> = {};
@@ -170,6 +172,8 @@ export const NewContribuition: React.FC = () => {
       fixedIncome: rateFixedIncomeTotal,
       usa: rateUsaTotal,
       reit: rateReitTotal,
+      cryptocurrency: rateCryptocurrencyTotal,
+      gold: rateGoldTotal,
     } = rateTotals;
 
     const maxRates: Record<string, number> = {
@@ -181,6 +185,8 @@ export const NewContribuition: React.FC = () => {
       etfUsa: rateUsaTotal,
       stockUsa: rateUsaTotal,
       reit: rateReitTotal,
+      cryptocurrency: rateCryptocurrencyTotal,
+      gold: rateGoldTotal,
     };
 
     return maxRates;
@@ -404,7 +410,7 @@ export const NewContribuition: React.FC = () => {
               id="contribuition"
               className="w-[200px]"
               type="text"
-              placeholder="Pesquisar"
+              placeholder="Digite o valor de aporte"
               value={contribuitionAmount}
               min={0}
               onChange={(e) =>

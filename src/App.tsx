@@ -4,6 +4,7 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import Navigation from "./routes";
 import { AuthProvider } from "./context/auth-context";
 import { ThemeProvider } from "./context/theme-provider";
+import { Loader } from "./components";
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
       </Helmet>
       <AuthProvider>
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-          <Suspense fallback={<span>loading...</span>}>
+          <Suspense fallback={<Loader />}>
             <Navigation />
           </Suspense>
         </ThemeProvider>

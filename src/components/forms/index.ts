@@ -1,5 +1,5 @@
 export * from "./account";
-export * from "./criptocurrency";
+export * from "./cryptocurrency";
 export * from "./fixed-income-and-tresury";
 export * from "./fixedIncomeEua";
 export * from "./fund";

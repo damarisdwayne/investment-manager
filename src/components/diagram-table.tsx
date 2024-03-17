@@ -9,8 +9,6 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AnswerData, QuestionData } from "@/services/questions";
-import { Button } from "./ui/button";
-import { Pencil1Icon } from "@radix-ui/react-icons";
 import {
   Select,
   SelectContent,
@@ -20,6 +18,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { DeleteQuestionDialog } from "./delete-question-dialog";
+import { QuestionDialog } from ".";
 
 interface DiagramTableProps {
   questions: QuestionData[] | null;
@@ -70,43 +70,54 @@ export const DiagramTable: React.FC<DiagramTableProps> = ({
           </TableHeader>
           <TableBody>
             {questions && questions.length > 0 ? (
-              questions.map(({ id, questionId, question, criterion }) => {
-                const answer = answers?.find(
-                  (answer) => answer.questionId === questionId,
-                );
-                return (
-                  <TableRow key={id}>
-                    <TableCell className="text-left">{criterion}</TableCell>
-                    <TableCell className="text-center">{question}</TableCell>
-                    <TableCell className="flex flex-end text-end">
-                      {action === "switch" ? (
-                        <Select
-                          key={id}
-                          value={answer?.answer}
-                          onValueChange={(value) =>
-                            handleSwitchChange(questionId!, value)
-                          }
-                        >
-                          <SelectTrigger className="w-[80px] ml-auto">
-                            <SelectValue placeholder="" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectLabel>Resposta</SelectLabel>
-                              <SelectItem value="yes">Sim</SelectItem>
-                              <SelectItem value="no">Não</SelectItem>
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                      ) : (
-                        <Button className="gap-1  ml-auto">
-                          <Pencil1Icon /> Editar
-                        </Button>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                );
-              })
+              questions.map(
+                ({ id, questionId, question, criterion, diagramType }) => {
+                  const answer = answers?.find(
+                    (answer) => answer.questionId === questionId,
+                  );
+                  return (
+                    <TableRow key={id}>
+                      <TableCell className="text-left">{criterion}</TableCell>
+                      <TableCell className="text-center">{question}</TableCell>
+                      <TableCell className="flex flex-end text-end">
+                        {action === "switch" ? (
+                          <Select
+                            key={id}
+                            value={answer?.answer}
+                            onValueChange={(value) =>
+                              handleSwitchChange(questionId!, value)
+                            }
+                          >
+                            <SelectTrigger className="w-[80px] ml-auto">
+                              <SelectValue placeholder="" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                <SelectLabel>Resposta</SelectLabel>
+                                <SelectItem value="yes">Sim</SelectItem>
+                                <SelectItem value="no">Não</SelectItem>
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+                        ) : (
+                          <div className=" flex  gap-2 ml-auto">
+                            <QuestionDialog
+                              isEditMode
+                              defaultValues={{
+                                id: id!,
+                                criterion,
+                                question,
+                                diagramType,
+                              }}
+                            />
+                            <DeleteQuestionDialog questionId={id!} />
+                          </div>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  );
+                },
+              )
             ) : (
               <TableRow>
                 <TableCell colSpan={3} align="center">

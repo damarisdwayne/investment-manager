@@ -31,6 +31,7 @@ import {
 } from "@/utils";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+import { AssetGroupToCategory, OperationType } from "@/constants";
 
 type DefaultValuesData = {
   ticker: string;
@@ -92,29 +93,11 @@ export const GenericForm = ({
     type === "fii" || type === "stock" || type === "fiAgro";
 
   const getOperationType = () => {
-    switch (operation) {
-      case "manualBuy":
-        return 1;
-      case "manualSell":
-        return 2;
-      case "subscription":
-        return 3;
-      case "bonus":
-        return 4;
-      case "ipo":
-        return 5;
-      case "fees":
-        return 6;
-      case "provent":
-        return 7;
-      case "cashout":
-        return 8;
-
-      default:
-        return 1;
-    }
+    return (
+      OperationType[operation as keyof typeof OperationType] ||
+      OperationType.ManualBuy
+    );
   };
-
   const operationType = getOperationType();
 
   const getQuestions = async () => {
@@ -178,6 +161,10 @@ export const GenericForm = ({
         ? "Bovespa"
         : "New York Stock Exchange";
     const marketType = type !== "etfUsa" && type !== "reit" ? 1 : 2;
+    const assetGroup = getAssetGroup();
+    const rate = getRate();
+    const category =
+      AssetGroupToCategory[assetGroup as keyof typeof AssetGroupToCategory];
 
     try {
       const assetData = await getAssetInfoFromBrapi(ticker);
@@ -194,10 +181,10 @@ export const GenericForm = ({
         sectorKey: assetData?.[0].summaryProfile.sectorKey || null,
         industry: assetData?.[0]?.summaryProfile.industry || null,
         industryKey: assetData?.[0]?.summaryProfile.industryKey || null,
-        category: 1,
+        category,
         categoryName: categotySelected,
-        assetGroup: getAssetGroup(),
-        rate: getRate(),
+        assetGroup: assetGroup,
+        rate: rate,
         operation,
         operationDate: date,
         operationType,
@@ -286,7 +273,7 @@ export const GenericForm = ({
               >
                 {isEditMode || getAssetGroup() === "stockUsa" ? (
                   <Input
-                    id="exchangeName"
+                    id="ticker"
                     type="text"
                     {...register("ticker")}
                     disabled={isEditMode}

@@ -84,7 +84,7 @@ export const OverViewChart = ({ label, assets }: OverViewChartProps) => {
                 },
                 {
                   id: 5,
-                  value: +percentages["criptocurrency"]?.toFixed(2) || 0,
+                  value: +percentages["cryptocurrency"]?.toFixed(2) || 0,
                   label: "Criptomoedas",
                   color: "#4ade80",
                 },

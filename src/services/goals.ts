@@ -8,7 +8,7 @@ export interface Goal {
   fixedIncome: number[];
   fii: number[];
   reits: number[];
-  criptocurrency: number[];
+  cryptocurrency: number[];
   gold: number[];
 }
 export interface GoalSingleValues {
@@ -17,7 +17,7 @@ export interface GoalSingleValues {
   fixedIncome: number;
   fii: number;
   reits: number;
-  criptocurrency: number;
+  cryptocurrency: number;
   gold: number;
 }
 
@@ -35,7 +35,7 @@ export const getGoal = async (): Promise<Goal | null> => {
       fixedIncome: data?.fixedIncome,
       fii: data?.fii,
       reits: data?.reits,
-      criptocurrency: data?.criptocurrency,
+      cryptocurrency: data?.cryptocurrency,
       gold: data?.gold,
     };
   } else {

@@ -18,7 +18,7 @@ export const MyGoals: React.FC = () => {
       fixedIncome: [30],
       fii: [30],
       reits: [10],
-      criptocurrency: [5],
+      cryptocurrency: [5],
       gold: [5],
     };
 
@@ -35,7 +35,7 @@ export const MyGoals: React.FC = () => {
 
   const values = watch();
 
-  const { stock, stockUsa, fixedIncome, fii, reits, criptocurrency, gold } =
+  const { stock, stockUsa, fixedIncome, fii, reits, cryptocurrency, gold } =
     values;
 
   const getTotal = () => {
@@ -45,7 +45,7 @@ export const MyGoals: React.FC = () => {
       fixedIncome?.[0] +
       fii?.[0] +
       reits?.[0] +
-      criptocurrency?.[0] +
+      cryptocurrency?.[0] +
       gold?.[0];
 
     return total;
@@ -60,7 +60,7 @@ export const MyGoals: React.FC = () => {
       fixedIncome,
       fii,
       reits,
-      criptocurrency,
+      cryptocurrency,
       gold,
     });
   };
@@ -139,13 +139,13 @@ export const MyGoals: React.FC = () => {
           </InputLabelGroup>
           <InputLabelGroup label="Criptomoedas">
             <Slider
-              name="criptocurrency"
-              value={criptocurrency}
-              onValueChange={(number) => setValue("criptocurrency", number)}
+              name="cryptocurrency"
+              value={cryptocurrency}
+              onValueChange={(number) => setValue("cryptocurrency", number)}
               max={100}
               step={1}
             />
-            <span className="self-end">{criptocurrency}%</span>
+            <span className="self-end">{cryptocurrency}%</span>
           </InputLabelGroup>
           <InputLabelGroup label="Ouro">
             <Slider

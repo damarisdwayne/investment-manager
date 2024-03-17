@@ -28,7 +28,7 @@ export const SelectCategory = ({ setCategory }: setCategoryProps) => {
           <SelectItem value="fixedIncome">Renda Fixa</SelectItem>
           {/* <SelectItem value="fixedIncomeEua">Renda Fixa EUA</SelectItem> */}
           {/* <SelectItem value="fund">Fundos de investimento</SelectItem> */}
-          <SelectItem value="crypto">Criptomoeda</SelectItem>
+          <SelectItem value="cryptocurrency">Criptomoeda</SelectItem>
           {/* <SelectItem value="account">Caixa/Conta corrente</SelectItem> */}
           {/* <SelectItem value="other">Outros</SelectItem> */}
         </SelectGroup>
