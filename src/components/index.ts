@@ -3,7 +3,7 @@ export * from "./date-picker";
 export * from "./diagram-table";
 export * from "./edit-asset-dialog";
 export * from "./header";
-export * from "./form/input-label-group";
+export * from "./forms";
 export * from "./overview-chart";
 export * from "./select-asset";
 export * from "./select-category";

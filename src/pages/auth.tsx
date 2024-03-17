@@ -4,8 +4,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "@/schemas";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { LoginForm } from "@/components/form/login";
-import { RegisterForm } from "@/components/form/resgister";
+import { LoginForm } from "@/components/forms/login";
+import { RegisterForm } from "@/components/forms/resgister";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuthData } from "@/context/use-auth-data";
 

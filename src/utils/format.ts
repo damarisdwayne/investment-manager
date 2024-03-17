@@ -19,13 +19,13 @@ export const formatToRealCurrency = (
       return digit + (index > 0 && index % 3 === 0 ? "." : "") + acc;
     }, "");
 
-  const formattedValue = `R$ ${formattedIntegerPart},${decimalPart}`;
+  const formattedValue = `${formattedIntegerPart},${decimalPart}`;
 
   return formattedValue;
 };
 
-export const formatNumberToCurrency = (value: string) => {
-  const numericValue = value.replace(/\D/g, "");
+export const formatNumberToCurrency = (value: string | number) => {
+  const numericValue = value.toString().replace(/\D/g, "");
 
   const formattedValue = (parseFloat(numericValue) / 100).toLocaleString(
     "pt-BR",
@@ -39,9 +39,17 @@ export const formatNumberToCurrency = (value: string) => {
 };
 
 export const parseCurrencyToNumber = (formattedValue: string): number => {
-  const numericValue: string = formattedValue.replace(/\D/g, "");
+  const numericValue: string = formattedValue?.replace(/\D/g, "");
 
   const amount: number = parseFloat(numericValue) / 100;
 
   return amount;
+};
+
+export const formattedPercentage = (number: number) => {
+  return (number * 100).toFixed(2) + "%";
+};
+
+export const removeSAFromText = (text: string): string => {
+  return text.replace(".SA", "");
 };

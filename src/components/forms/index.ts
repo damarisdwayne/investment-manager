@@ -7,3 +7,4 @@ export * from "./generic";
 export * from "./login";
 export * from "./other";
 export * from "./resgister";
+export * from "./input-label-group";

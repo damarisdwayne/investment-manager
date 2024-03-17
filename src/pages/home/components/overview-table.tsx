@@ -8,8 +8,26 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent } from "@/components/ui/card";
+import { IAsset } from "@/types/asset";
+import { formatToRealCurrency } from "@/utils";
 
-export const OverviewTable: React.FC = () => {
+interface OverviewTableProps {
+  assets: IAsset[];
+}
+
+export const OverviewTable: React.FC<OverviewTableProps> = ({ assets }) => {
+  const getAssetPercentage = () => {
+    const totalAssets = assets.reduce((total, asset) => total + asset.total, 0);
+    const assetPercentages: { [key: string]: number } = {};
+
+    assets.forEach((asset) => {
+      const percentage = (asset.total / totalAssets) * 100;
+      assetPercentages[asset.ticker] = percentage;
+    });
+
+    return assetPercentages;
+  };
+  const assetPercentage = getAssetPercentage();
   return (
     <Card>
       <CardContent>
@@ -17,41 +35,20 @@ export const OverviewTable: React.FC = () => {
           <TableHeader>
             <TableRow>
               <TableHead>Ativo</TableHead>
+              <TableHead>Quantidade</TableHead>
               <TableHead>Valor atual</TableHead>
               <TableHead>% Total</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              <TableCell>ITSA4</TableCell>
-              <TableCell>R$ 5.000,00</TableCell>
-              <TableCell>3.95%</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>BBSA3</TableCell>
-              <TableCell>R$ 7.890,56</TableCell>
-              <TableCell>5.00%</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>ITSA4</TableCell>
-              <TableCell>R$ 5.000,00</TableCell>
-              <TableCell>3.95%</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>BBSA3</TableCell>
-              <TableCell>R$ 7.890,56</TableCell>
-              <TableCell>5.00%</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>ITSA4</TableCell>
-              <TableCell>R$ 5.000,00</TableCell>
-              <TableCell>3.95%</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>BBSA3</TableCell>
-              <TableCell>R$ 7.890,56</TableCell>
-              <TableCell>5.00%</TableCell>
-            </TableRow>
+            {assets?.map(({ ticker, qtd, total }) => (
+              <TableRow key={ticker}>
+                <TableCell>{ticker}</TableCell>
+                <TableCell>{qtd === 0 ? 1 : qtd}</TableCell>
+                <TableCell>{formatToRealCurrency(total || 0)}</TableCell>
+                <TableCell>{assetPercentage[ticker]?.toFixed(2)}%</TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </CardContent>

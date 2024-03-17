@@ -13,6 +13,7 @@ import { FixedIncomeAndTreasurySchema } from "@/schemas/new-asset/fixed-income-a
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { IAsset } from "@/types/asset";
+import { formatNumberToCurrency, parseCurrencyToNumber } from "@/utils";
 
 interface FixedIncomeAndTreasuryFormProps {
   categotySelected: string;
@@ -21,8 +22,11 @@ interface FixedIncomeAndTreasuryFormProps {
 export const FixedIncomeAndTreasuryForm = ({
   categotySelected,
 }: FixedIncomeAndTreasuryFormProps) => {
-  const { control, watch, register, handleSubmit } = useForm({
+  const { control, watch, register, setValue, handleSubmit } = useForm({
     resolver: yupResolver(FixedIncomeAndTreasurySchema),
+    defaultValues: {
+      date: new Date().toISOString().slice(0, 10) || undefined,
+    },
   });
 
   const {
@@ -52,13 +56,17 @@ export const FixedIncomeAndTreasuryForm = ({
   const percentPerYearLabel =
     fee === "pre" ? "% ao ano" : `% do ${indexer || ""}`;
 
-  const dueDateFormatted = dueDate ? format(dueDate, "dd/MM/yyyy") : undefined;
+  const dueDateFormatted = dueDate
+    ? format(new Date(dueDate), "dd/MM/yyyy")
+    : undefined;
 
   const market = categotySelected === "treasury" ? "Tesouro" : "Renda fixa";
   const marketType = categotySelected === "treasury" ? 3 : 4;
 
   const ticker = isRequiredFieldsFilled
-    ? `${type} ${fee} ${percentage}% ${indexer} ${dueDateFormatted}`
+    ? `${type} ${fee} ${percentage}% ${indexer ? indexer : ""} ${
+        dueDate.length > 7 ? dueDateFormatted : ""
+      }`
     : "";
 
   const onSubmit = async () => {
@@ -70,9 +78,9 @@ export const FixedIncomeAndTreasuryForm = ({
       typeTax: fee,
       market,
       marketType,
-      total,
+      total: parseCurrencyToNumber(total),
       sector: type,
-      sectorKey: type,
+      industry: type,
       category: 2,
       categoryName: categotySelected,
       assetGroup: "fixedIncome",
@@ -81,6 +89,8 @@ export const FixedIncomeAndTreasuryForm = ({
       operationDate: date,
       dueDate,
       operationType: 1,
+      price: 0,
+      qtd: 0,
     };
 
     await addAsset(dataToSend);
@@ -144,7 +154,15 @@ export const FixedIncomeAndTreasuryForm = ({
           />
         </InputLabelGroup>
         <InputLabelGroup label="Total investido">
-          <Input id="total" type="number" {...register("total")} />
+          <Input
+            id="total"
+            type="text"
+            {...register("total")}
+            min={0}
+            onChange={(e) =>
+              setValue("total", formatNumberToCurrency(e.target.value))
+            }
+          />
         </InputLabelGroup>
         <InputLabelGroup label="Nota">
           <Input id="total" type="number" {...register("rate")} />

@@ -31,12 +31,14 @@ export interface IAsset {
   categoryName: string;
   tax?: number;
   typeTax?: string;
-  qtd?: number;
-  price?: number;
+  qtd?: number | null;
+  price?: number | null;
   market?: string;
   marketType?: number;
   sector?: string | null;
   sectorKey?: string | null;
+  industry?: string | null;
+  industryKey?: string | null;
   segment?: string;
   cnpj?: string;
   cnpjAdmin?: string;
@@ -127,4 +129,139 @@ export interface IAssetInfo {
   results: AssetInfoData[];
   requestedAt: string;
   took: string;
+}
+
+export interface QuoteData {
+  exchange: string;
+  shortname: string;
+  quoteType: string;
+  symbol: string;
+  index: string;
+  score: number;
+  typeDisp: string;
+  longname: string;
+  exchDisp: string;
+  sector: string;
+  sectorDisp: string;
+  industry: string;
+  industryDisp: string;
+  dispSecIndFlag: boolean;
+  isYahooFinance: boolean;
+}
+
+export interface IYahooFinanceAssetData {
+  explains: any[];
+  count: number;
+  quotes: QuoteData[];
+}
+
+export interface Result {
+  meta: {
+    currency: string;
+    symbol: string;
+    exchangeName: string;
+    instrumentType: string;
+    firstTradeDate: number;
+    regularMarketTime: number;
+    hasPrePostMarketData: boolean;
+    gmtoffset: number;
+    timezone: string;
+    exchangeTimezoneName: string;
+    regularMarketPrice: number;
+    chartPreviousClose: number;
+    previousClose: number;
+    scale: number;
+    priceHint: number;
+    currentTradingPeriod: {
+      pre: {
+        timezone: string;
+        end: number;
+        start: number;
+        gmtoffset: number;
+      };
+      regular: {
+        timezone: string;
+        end: number;
+        start: number;
+        gmtoffset: number;
+      };
+      post: {
+        timezone: string;
+        end: number;
+        start: number;
+        gmtoffset: number;
+      };
+    };
+    tradingPeriods: [
+      [
+        {
+          timezone: string;
+          end: number;
+          start: number;
+          gmtoffset: number;
+        },
+      ],
+    ];
+    dataGranularity: string;
+    range: string;
+    validRanges: string[];
+  };
+  timestamp: number[];
+  indicators: {
+    quote: {
+      high: number[];
+      volume: number[];
+      low: number[];
+      open: number[];
+      close: number[];
+    };
+  };
+}
+
+export interface IYahooFinanceChartData {
+  chart: {
+    result: Result[];
+  };
+}
+
+export interface CoinData {
+  coins: string[];
+}
+
+export interface AvaiableStockList {
+  indexes: any[];
+  stocks: string[];
+}
+
+export type StockDetail = {
+  stock: string;
+  name: string;
+  close: number;
+  change: number;
+  volume: number;
+  market_cap: number;
+  logo: string;
+  sector: string;
+  type: string;
+};
+
+export interface QuoteListResponse {
+  indexes: { stock: string; name: string }[];
+  stocks: StockDetail[];
+  availableSectors: string[];
+  availableStockTypes: string[];
+  currentPage: number;
+  totalPages: number;
+  itemsPerPage: number;
+  totalCount: number;
+  hasNextPage: boolean;
+}
+
+export interface ExchangeRateResponse {
+  base: string;
+  results: {
+    [currency: string]: number;
+  };
+  updated: string;
+  ms: number;
 }

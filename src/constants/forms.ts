@@ -1,6 +1,7 @@
 export enum AssetGroup {
   STOCK = "stock",
   STOCK_USA = "stockUsa",
+  ETF_USA = "etfUsa",
   BDR = "bdr",
   SUBSCRIPTION_RIGHT = "subscriptionRight",
   ETF = "etf",
@@ -8,6 +9,7 @@ export enum AssetGroup {
   FII = "fii",
   REIT = "reit",
   TREASURY = "treasury",
+  FIXED_INCOME = "fixedIncome",
   CCB = "ccb",
   CDB = "cdb",
   CRA = "cra",
@@ -24,23 +26,23 @@ export enum AssetGroup {
   RDC = "rdc",
 }
 
-export const assetListType = [
-  { label: "Todos", bgColor: "slate-50" },
-  { label: "Ações Internacionais", bgColor: "international-stocks" },
-  { label: "Ações Nacionais", bgColor: "national-stocks" },
-  { label: "Renda Fixa", bgColor: "fixed-income" },
-  { label: "Fundos Imobiliários", bgColor: "real-estate-funds" },
-  { label: "REITs", bgColor: "reits" },
-  { label: "Criptomoedas", bgColor: "cryptocurrencies" },
-  { label: "Ouro", bgColor: "gold" },
-];
+export const assetGroups = {
+  Todos: "all",
+  "Ações Nacionais": "stock",
+  "Ações Internacionais": "stockUsa",
+  "Renda Fixa": "fixedIncome",
+  "Fundos Imobiliários": "fii",
+  REITs: "reits",
+  Criptomoedas: "cryptocurrency",
+  Ouro: "gold",
+};
 
 export const financialAssets = [
   { option: "stock", value: "Ações" },
   { option: "stockUsa", value: "Ações EUA" },
   { option: "bdr", value: "BDR" },
   // { option: "expenses", value: "Despesas" },
-  { option: "subscriptionRight", value: "Direito de subscrição" },
+  // { option: "rightSibscription", value: "Direito de subscrição" },
   // { option: "futUsd", value: "Dólar Futuro" },
   { option: "etf", value: "ETF" },
   // { option: "etfFixedIncome", value: "ETF Renda Fixa" },

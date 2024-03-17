@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { WalletTable } from "./components/wallet-table";
 import { Toggle } from "@/components/ui/toggle";
-import { assetListType } from "@/constants";
+import { assetGroups } from "@/constants";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +11,7 @@ import { getAssets } from "@/services/asset";
 import { IAsset } from "@/types/asset";
 
 export const MyAssets: React.FC = () => {
-  const [activeItems, setActiveItems] = useState<string>("");
+  const [activeItem, setActiveItem] = useState<string>("Todos");
   const [assets, setAssets] = useState<IAsset[]>([]);
   const navigation = useNavigate();
 
@@ -19,6 +19,17 @@ export const MyAssets: React.FC = () => {
     const data = await getAssets();
     setAssets(data as any as IAsset[]);
   };
+
+  const filterAssets = () => {
+    const assetGroup = assetGroups[activeItem as keyof typeof assetGroups];
+    return assetGroup === "all"
+      ? assets
+      : assets.filter(
+          (item) => assetGroup === "all" || item.assetGroup === assetGroup,
+        );
+  };
+
+  const assetsFiltered = filterAssets();
 
   useEffect(() => {
     getAllAssets();
@@ -41,20 +52,20 @@ export const MyAssets: React.FC = () => {
           <PlusIcon /> Adicionar ativo
         </Button>
         <div className=" flex gap-4">
-          {assetListType.map((item) => (
+          {Object.keys(assetGroups).map((item) => (
             <Toggle
               variant="outline"
               size="sm"
-              pressed={activeItems.includes(item.label)}
-              onPressedChange={() => setActiveItems(item.label)}
-              key={item.label}
+              pressed={activeItem.includes(item)}
+              onPressedChange={() => setActiveItem(item)}
+              key={item}
             >
-              {item.label}
+              {item}
             </Toggle>
           ))}
         </div>
         <div className="flex flex-row gap-4">
-          <WalletTable assets={assets} />
+          <WalletTable assets={assetsFiltered} />
         </div>
       </div>
     </div>

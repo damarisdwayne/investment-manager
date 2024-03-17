@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { InputLabelGroup } from "./form/input-label-group";
+import { InputLabelGroup } from "./forms/input-label-group";
 import {
   Select,
   SelectContent,

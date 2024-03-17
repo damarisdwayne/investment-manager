@@ -8,7 +8,7 @@ import {
   CriptocurrencyForm,
   AccountForm,
   OtherForm,
-} from "@/components/form";
+} from "@/components/forms";
 
 const NewAsset = () => {
   const [category, setCategory] = useState("");

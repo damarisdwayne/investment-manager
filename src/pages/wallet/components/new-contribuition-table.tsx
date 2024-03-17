@@ -7,12 +7,39 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { PlusIcon } from "@radix-ui/react-icons";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { AssetCategory } from "../new-contribuition";
+import {
+  formatToRealCurrency,
+  formattedPercentage,
+  removeSAFromText,
+  renderTypeAsset,
+} from "@/utils";
+import { EditAssetDialog } from "@/components";
 
-export const NewContribuitionTable: React.FC = () => {
+interface NewContribuitionTableProps {
+  showShowContribuitionColumn: boolean;
+  categorizedAssets: AssetCategory[];
+  assetAllocations: Record<string, number>[];
+}
+
+export const NewContribuitionTable: React.FC<NewContribuitionTableProps> = ({
+  categorizedAssets,
+  assetAllocations,
+  showShowContribuitionColumn,
+}) => {
+  const getValueForContribuition = (ticket: string) => {
+    let valueToContribuition = 0;
+    assetAllocations?.forEach((allocation) => {
+      if (ticket in allocation) {
+        valueToContribuition = allocation[ticket];
+        return;
+      }
+    });
+    return valueToContribuition;
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -24,33 +51,98 @@ export const NewContribuitionTable: React.FC = () => {
             <TableRow>
               <TableHead>Tipo</TableHead>
               <TableHead>Ativo</TableHead>
-              <TableHead>Resistência</TableHead>
-              <TableHead>Recomendado %</TableHead>
+              <TableHead>Preço</TableHead>
+              <TableHead>Qtd</TableHead>
+              <TableHead>Nota</TableHead>
+              <TableHead>Ideal %</TableHead>
               <TableHead>Total %</TableHead>
-              <TableHead>Sugestão</TableHead>
-              <TableHead className="w-[20%]">Valor atual</TableHead>
+              <TableHead>Ideal R$</TableHead>
+              <TableHead>Total R$</TableHead>
+              {showShowContribuitionColumn && (
+                <>
+                  <TableHead>Aportar</TableHead>
+                  <TableHead>Qtd aporte</TableHead>
+                </>
+              )}
               <TableHead></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              <TableCell>
-                <Badge className={`rounded-[10px]`} variant="secondary">
-                  Renda fixa
-                </Badge>
-              </TableCell>
-              <TableCell>ITSA4</TableCell>
-              <TableCell>5</TableCell>
-              <TableCell>26,67%</TableCell>
-              <TableCell>10%</TableCell>
-              <TableCell>R$85.000,00</TableCell>
-              <TableCell>R$ 60.000,00</TableCell>
-              <TableCell>
-                <Button className="gap-2 align-middle">
-                  <PlusIcon /> Aportar
-                </Button>
-              </TableCell>
-            </TableRow>
+            {categorizedAssets && categorizedAssets.length > 0 ? (
+              categorizedAssets.map(({ assets }) =>
+                assets.map((asset) => {
+                  const {
+                    assetGroup,
+                    ticker,
+                    exchangeName,
+                    rate,
+                    recommendedPercentage,
+                    currentPercentage,
+                    suggestedValueForAsset,
+                    price,
+                    qtd,
+                    total,
+                  } = asset;
+                  const valueForContribuition =
+                    getValueForContribuition(ticker);
+                  const qtdForContribuition = valueForContribuition / price;
+                  return (
+                    <TableRow key={ticker}>
+                      <TableCell>
+                        <Badge className={`rounded-[10px]`} variant="secondary">
+                          {renderTypeAsset(assetGroup!)}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>{removeSAFromText(ticker)}</TableCell>
+                      <TableCell>{formatToRealCurrency(price)}</TableCell>
+                      <TableCell>{qtd}</TableCell>
+                      <TableCell>{rate}</TableCell>
+                      <TableCell>
+                        {formattedPercentage(recommendedPercentage || 0)}
+                      </TableCell>
+                      <TableCell>
+                        {formattedPercentage(currentPercentage || 0)}
+                      </TableCell>
+                      <TableCell>
+                        {formatToRealCurrency(suggestedValueForAsset || 0)}
+                      </TableCell>
+                      <TableCell>{formatToRealCurrency(total)}</TableCell>
+                      {showShowContribuitionColumn && (
+                        <>
+                          <TableCell>
+                            {formatToRealCurrency(valueForContribuition)}
+                          </TableCell>
+                          <TableCell>
+                            {assetGroup === "fixedIncome"
+                              ? "-"
+                              : Math.floor(qtdForContribuition)}
+                          </TableCell>
+                        </>
+                      )}
+                      <TableCell>
+                        <EditAssetDialog
+                          asset={{
+                            assetGroup,
+                            ticker,
+                            exchangeName,
+                            rate,
+                          }}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  );
+                }),
+              )
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={showShowContribuitionColumn ? 12 : 10}
+                  align="center"
+                >
+                  Nenhum ativo encontrado.
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </CardContent>

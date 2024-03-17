@@ -11,6 +11,15 @@ export interface Goal {
   criptocurrency: number[];
   gold: number[];
 }
+export interface GoalSingleValues {
+  stock: number;
+  stockUsa: number;
+  fixedIncome: number;
+  fii: number;
+  reits: number;
+  criptocurrency: number;
+  gold: number;
+}
 
 export const getGoal = async (): Promise<Goal | null> => {
   const currentUser = auth.currentUser?.uid;
